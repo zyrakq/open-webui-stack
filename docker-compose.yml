@@ -1,0 +1,19 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
+    container_name: open-webui
+    volumes:
+      - open-webui:/app/backend/data
+    environment:
+      - "WEBUI_SECRET_KEY="
+    restart: unless-stopped
+    networks:
+      - open-webui-workspace-network
+
+volumes:
+  open-webui: {}
+
+networks:
+  open-webui-workspace-network:
+    name: open-webui-workspace-network
+    external: true

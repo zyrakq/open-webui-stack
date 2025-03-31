@@ -1,0 +1,81 @@
+{
+    "name": "Open WebUI Arch Workspace",
+    "dockerComposeFile": ["docker-compose.yml", "${localEnv:DOCKER_COMPOSE_FILE:docker-compose.yml}"],
+    "service": "open-webui-workspace",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "abc",
+    "remoteEnv": {
+        "REPO_URL": "git@github.com:zeritiq/open-webui.git",
+        "WORKSPACE_FOLDER": "/workspace"
+    },
+    "forwardPorts": ["open-webui:8080"],
+    "postCreateCommand": "/setup_container.sh && /clone-repo.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // VSCode
+                "vscode-icons-team.vscode-icons",
+                "aaron-bond.better-comments",
+                "IBM.output-colorizer",
+                "bierner.markdown-mermaid",
+
+                // Docker
+                "ms-azuretools.vscode-docker",
+
+                // Git
+                "eamodio.gitlens",
+                "codezombiech.gitignore",
+
+                // Copilot
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+
+            ],
+            "settings": {
+                "workbench.iconTheme": "vscode-icons",
+                "http.proxy": "http://wg-devcontainer-http-client:8888",
+                "github.copilot.chat.localeOverride": "ru",
+                "github.copilot.nextEditSuggestions.enabled": false,
+                "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+                "chat.promptFiles":true,
+                "github.copilot.chat.codeGeneration.instructions": [],
+                "github.copilot.chat.testGeneration.instructions": [],
+                "github.copilot.chat.reviewSelection.instructions": [],
+                "github.copilot.chat.commitMessageGeneration.instructions": [   
+                    {
+                        "text": "The title must not exceed 50 characters in length."
+                    },
+                    {
+                        "text": "The commit title must start with an imperative verb."
+                    },
+                    {
+                        "text": "The commit description must not exceed 72 characters in length."
+                    },
+                    {
+                        "text": "The commit description must be in English."
+                    },
+                    {
+                        "text": "Each block must be separated by an empty line."
+                    },
+                    {
+                        "text": "Do not put a period at the end of a sentence if there is no other sentence in the current line."
+                    },
+                    {
+                        "text": "The first block must answer the question 'What was done?'"
+                    },
+                    {
+                        "text": "The second block must answer the question 'Why was it done?'. The answer to this question can be inferred from the context."
+                    },
+                    {
+                        "text": "The first and second blocks of the commit description are mandatory."
+                    },
+                    {
+                        "text": "The third block, if possible, should contain links to related tasks or issues."
+                    }
+                ],
+                "github.copilot.chat.pullRequestDescriptionGeneration.instructions": []
+            }
+        }
+    }
+}

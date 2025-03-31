@@ -1,0 +1,18 @@
+services:
+  open-webui-workspace:
+    container_name: open-webui-workspace
+    build: .
+    working_dir: /workspace
+    volumes:
+      - open-webui-workspace:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock #optional
+    networks: 
+      - open-webui-workspace-network
+
+volumes:
+  open-webui-workspace:
+    name: open-webui-workspace
+
+networks: 
+  open-webui-workspace-network:
+    name: open-webui-workspace-network
