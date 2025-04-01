@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "src/openai-edge-tts"
+		},
+		{
+			"path": "src/open-webui"
+		}
+	]
+}
