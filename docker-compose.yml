@@ -1,19 +1,21 @@
 services:
   open-webui:
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
     container_name: open-webui
     volumes:
       - open-webui:/app/backend/data
     environment:
+      - OPENAI_API_BASE_URL=$OPENAI_API_BASE_URL
+      - OPENAI_API_KEY=$OPENAI_API_KEY
+      - ENABLE_OLLAMA_API=False
       - "WEBUI_SECRET_KEY="
-    restart: unless-stopped
     networks:
       - open-webui-workspace-network
 
 volumes:
-  open-webui: {}
+  open-webui:
+    name: open-webui
 
 networks:
   open-webui-workspace-network:
-    name: open-webui-workspace-network
     external: true

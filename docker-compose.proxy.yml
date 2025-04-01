@@ -1,0 +1,12 @@
+services:
+  open-webui:
+    environment:
+      - http_proxy=http://wg-devcontainer-http-client:8888
+      - https_proxy=http://wg-devcontainer-http-client:8888
+      - no_proxy=${no_proxy:-localhost,127.0.0.1}"
+    networks:
+      - wg-devcontainer-proxy-network
+
+networks:
+  wg-devcontainer-proxy-network:
+    external: true
