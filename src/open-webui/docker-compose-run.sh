@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# Запуск docker-compose с основным файлом и файлом прокси
-docker-compose -f docker-compose.yml -f docker-compose.proxy.yml up -d --build
+# Запуск docker-compose с основным файлом, файлом прокси и файлом audio
+docker-compose -f docker-compose.yml -f docker-compose.proxy.yml -f docker-compose.audio.yml up -d --build
