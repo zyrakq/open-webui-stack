@@ -1,0 +1,8 @@
+services:
+  open-webui:
+    environment:
+      - WHISPER_MODEL=medium  # Модель Whisper для OpenAI Edge TTS
+      - AUDIO_TTS_ENGINE=openai  # Движок Text-to-Speech для OpenAI Edge TTS
+      - AUDIO_TTS_OPENAI_API_BASE_URL=http://openai-edge-tts:5050  # URL API OpenAI Edge TTS
+      - AUDIO_TTS_OPENAI_API_KEY=your_api_key_here  # API-ключ для OpenAI Edge TTS
+      - AUDIO_TTS_VOICE=ru-RU-DmitryNeural  # Голос для OpenAI Edge TTS
