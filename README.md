@@ -9,10 +9,10 @@
 Open WebUI — основной сервис, предоставляющий пользовательский интерфейс.  
 [Подробнее о настройке Open WebUI](src/open-webui/README.md).
 
-### [OpenAI Edge TTS](src/openai-edge-tts)
+### [Text-to-Speech](src/text-to-speech)
 
-OpenAI Edge TTS — сервис для преобразования текста в речь.  
-[Подробнее о настройке OpenAI Edge TTS](src/openai-edge-tts/README.md).
+Text-to-Speech — сервисы для преобразования текста в речь.  
+[Подробнее о настройке Text-to-Speech](src/text-to-speech/README.md).
 
 ## Запуск
 

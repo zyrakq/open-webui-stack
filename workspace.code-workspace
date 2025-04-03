@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "src/openai-edge-tts"
+			"path": "src/text-to-speech/openai-edge-tts"
 		},
 		{
 			"path": "src/open-webui"
