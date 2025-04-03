@@ -32,6 +32,7 @@
   - Добавляет сеть `open-webui-workspace-network` для взаимодействия с внешними сервисами в dev-среде.
 - Конфигурация OpenAI Edge TTS: `docker-compose.openai-edge-tts.yml`
   - Содержит переменные среды и настройки для интеграции OpenAI Edge TTS.
+- Конфигурация OpenedAI Speech: `docker-compose.openedai-speech.yml`
 
 ## Запуск
 

@@ -4,10 +4,13 @@
 			"path": "."
 		},
 		{
+			"path": "src/open-webui"
+		},
+		{
 			"path": "src/text-to-speech/openai-edge-tts"
 		},
 		{
-			"path": "src/open-webui"
+			"path": "src/text-to-speech/openedai-speech"
 		}
 	]
 }

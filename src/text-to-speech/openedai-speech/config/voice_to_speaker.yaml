@@ -1,0 +1,5 @@
+tts-1-hd:
+  mixed:
+    model: xtts
+    speaker: voices/mixed/
+    language: ru-ru

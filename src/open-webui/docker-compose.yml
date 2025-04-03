@@ -22,4 +22,4 @@ volumes:
 
 networks:
   open-webui-network:
-    name: open-webui-network
+        name: open-webui-network
