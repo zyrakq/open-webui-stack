@@ -1,11 +1,11 @@
 # Как добавить интеграцию Text-to-Speech
 
-Для добавления интеграции Text-to-Speech в Open WebUI следуйте инструкциям из следующих разделов документации:
+Для добавления интеграции Text-to-Speech в Open WebUI следуйте инструкциям из следующих документов:
 
-1. [Общий раздел Text-to-Speech](https://docs.openwebui.com/category/%EF%B8%8F-text-to-speech) — содержит общую информацию о поддерживаемых интеграциях.
-2. [Интеграция OpenAI Edge TTS](https://docs.openwebui.com/tutorials/text-to-speech/openai-edge-tts-integration) — пошаговая инструкция по настройке OpenAI Edge TTS.
-3. [Интеграция Kokoro FastAPI](https://docs.openwebui.com/tutorials/text-to-speech/Kokoro-FastAPI-integration) — руководство по интеграции Kokoro FastAPI.
-4. [Интеграция OpenEDAI Speech](https://docs.openwebui.com/tutorials/text-to-speech/openedai-speech-integration) — инструкция по настройке OpenEDAI Speech.
+1. [Общий раздел Text-to-Speech](../docs/openai-edge-tts-integration.md) — содержит общую информацию о поддерживаемых интеграциях.
+2. [Интеграция OpenAI Edge TTS](../docs/openai-edge-tts-integration.md) — пошаговая инструкция по настройке OpenAI Edge TTS.
+3. [Интеграция Kokoro FastAPI](../docs/Kokoro-FastAPI-integration.md) — руководство по интеграции Kokoro FastAPI.
+4. [Интеграция OpenEDAI Speech](../docs/openedai-speech-integration.md) — инструкция по настройке OpenEDAI Speech.
 
 ## Шаги для добавления новой интеграции
 
