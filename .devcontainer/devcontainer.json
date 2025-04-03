@@ -1,6 +1,6 @@
 {
     "name": "Open WebUI Arch Workspace",
-    "dockerComposeFile": ["docker-compose.yml", "${localEnv:DOCKER_COMPOSE_FILE:docker-compose.yml}"],
+    "dockerComposeFile": ["docker/docker-compose.yml", "docker/${localEnv:DOCKER_COMPOSE_FILE:docker-compose.yml}"],
     "service": "open-webui-workspace",
     "shutdownAction": "stopCompose",
     "workspaceFolder": "/workspace",
