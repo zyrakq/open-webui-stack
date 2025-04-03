@@ -1,0 +1,8 @@
+services:
+  open-webui:
+    networks:
+      - open-webui-workspace-network
+
+networks:
+  open-webui-workspace-network:
+    external: true

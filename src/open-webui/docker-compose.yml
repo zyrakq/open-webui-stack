@@ -11,7 +11,6 @@ services:
       - "WEBUI_SECRET_KEY="
     networks:
       - open-webui-network
-      - open-webui-workspace-network
 
 volumes:
   open-webui:
@@ -20,5 +19,3 @@ volumes:
 networks:
   open-webui-network:
     name: open-webui-network
-  open-webui-workspace-network:
-    external: true
