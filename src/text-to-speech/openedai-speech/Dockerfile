@@ -1,4 +1,5 @@
-FROM ghcr.io/matatonic/openedai-speech
+FROM ghcr.io/matatonic/openedai-speech-min
 
-COPY voices/ /app/voices/
 COPY config/ /app/config/
+
+# COPY config/ /app/voices/

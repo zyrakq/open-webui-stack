@@ -1,5 +1,10 @@
-tts-1-hd:
-  mixed:
-    model: xtts
-    speaker: voices/mixed/
-    language: ru-ru
+# tts-1-hd:
+#   mixed:
+#     model: xtts
+#     speaker: voices/mixed/
+#     language: ru-ru
+
+tts-1:
+  ruslan:
+    model: voices/ru_RU-ruslan-medium.onnx
+    speaker: # default speaker

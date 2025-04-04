@@ -2,23 +2,19 @@ services:
   openedai-speech:
     build: .
     container_name: openedai-speech
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities:
-                - gpu
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
       - TTS_HOME=/app/voices
       - HF_HOME=/app/voices
-      - PRELOAD_MODEL=xtts
+      - PRELOAD_MODEL=ru_RU-ruslan-medium
     restart: unless-stopped
+    volumes:
+      - openedai-speech-voices:/app/voices
     networks:
       - open-webui-network
+
+volumes:
+  openedai-speech-voices:
+    name: openedai-speech-voices
 
 networks:
   open-webui-network:
