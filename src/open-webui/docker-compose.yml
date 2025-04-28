@@ -12,7 +12,7 @@ services:
       - DEFAULT_LOCALE=ru
       - ENABLE_EVALUATION_ARENA_MODELS=False
       - ENABLE_OLLAMA_API=False
-      - "WEBUI_SECRET_KEY="
+      - "WEBUI_SECRET_KEY=B7qrb5MN9NOknfeKcwwO2Q=="
     networks:
       - open-webui-network
 
