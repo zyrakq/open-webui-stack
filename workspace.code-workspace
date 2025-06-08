@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "src/text-to-speech/openedai-speech"
+		},
+		{
+			"path": "src/cert-manager"
+		},
+		{
+			"path": "/config"
 		}
 	]
 }

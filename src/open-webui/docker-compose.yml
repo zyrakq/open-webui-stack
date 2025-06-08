@@ -2,6 +2,7 @@ services:
   open-webui:
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
     container_name: open-webui
+    restart: always
     volumes:
       - open-webui:/app/backend/data
     environment:
@@ -22,4 +23,4 @@ volumes:
 
 networks:
   open-webui-network:
-        name: open-webui-network
+    name: open-webui-network

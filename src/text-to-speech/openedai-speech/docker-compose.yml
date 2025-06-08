@@ -3,8 +3,6 @@ services:
     build: .
     container_name: openedai-speech
     environment:
-      - TTS_HOME=/app/voices
-      - HF_HOME=/app/voices
       - PRELOAD_MODEL=ru_RU-ruslan-medium
     restart: unless-stopped
     volumes:
