@@ -17,15 +17,6 @@ RUN pacman -Sy \
 
 ENV HOME=/config
 
-# RUN groupadd --gid $PGID $USERNAME \
-#     && useradd --uid $PUID --gid $PGID -G wheel -s /bin/bash -m -d $HOME -p $USERNAME $USERNAME
-
-# RUN mkdir -m 755 /etc/sudoers.d 
-
-# RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel
-
-# RUN chmod 0440 /etc/sudoers.d/wheel
-
 # Create the user
 RUN groupadd --gid $PGID $USERNAME \
     && useradd --uid $PUID --gid $PGID -G wheel -s /bin/bash -m -d $HOME -p $USERNAME $USERNAME \

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-UID=${PUID:-1000}
+uid=${PUID:-1000}
 
-chown "$UID" /var/run/docker.sock
+sudo chown "$uid" /var/run/docker.sock

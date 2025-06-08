@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-UID=${PUID:-1000}
-GID=${PGID:-1000}
+uid=${PUID:-1000}
+gid=${PGID:-1000}
 
 cd "$WORKSPACE_FOLDER" || { echo "Error: Failed to change to project directory"; exit 1; }
 
@@ -11,7 +11,7 @@ if [ -n "$(ls -A)" ]; then
 fi
 
 # Change the owner of the current directory
-if ! sudo chown -R "$UID:$GID" .; then
+if ! sudo chown -R "$uid:$gid" .; then
     echo "Error: Failed to change the owner of the directory"
     exit 1
 fi
