@@ -1,44 +1,45 @@
-# Open WebUI
+# 🌐 Open WebUI
 
-## Переменные среды
+## 🔧 Environment Variables
 
-### Общие переменные среды
+### General Environment Variables
 
-Эти переменные используются всеми конфигурациями:
+These variables are used by all configurations:
 
-- `OPENAI_API_BASE_URL`: URL API для взаимодействия с OpenAI API.
-- `OPENAI_API_KEY`: Ключ API для аутентификации запросов к OpenAI API.
-- `TASK_MODEL_EXTERNAL`: Внешняя модель для задач (например, `google/gemini-2.5-pro-exp-03-25:free`).
-- `DEFAULT_MODELS`: Модели, используемые по умолчанию (например, `gemini-2.5-pro-exp-03-25:free`).
-- `DEFAULT_LOCALE`: Локаль по умолчанию (например, `ru`).
-- `ENABLE_EVALUATION_ARENA_MODELS`: Включить ли модели для оценки (например, `False`).
-- `ENABLE_OLLAMA_API`: Включить ли API Ollama (например, `False`).
-- `WEBUI_SECRET_KEY`: Секретный ключ для WebUI.
+- `OPENAI_API_BASE_URL`: API URL for interacting with OpenAI API.
+- `OPENAI_API_KEY`: API key for authenticating requests to OpenAI API.
+- `TASK_MODEL_EXTERNAL`: External model for tasks (e.g., `google/gemini-2.5-pro-exp-03-25:free`).
+- `DEFAULT_MODELS`: Default models used (e.g., `gemini-2.5-pro-exp-03-25:free`).
+- `DEFAULT_LOCALE`: Default locale (e.g., `ru`).
+- `ENABLE_EVALUATION_ARENA_MODELS`: Whether to enable evaluation models (e.g., `False`).
+- `ENABLE_OLLAMA_API`: Whether to enable Ollama API (e.g., `False`).
+- `WEBUI_SECRET_KEY`: Secret key for WebUI.
 
-### Переменные среды для OpenAI Edge TTS
+### Environment Variables for OpenAI Edge TTS
 
-Эти переменные используются в конфигурации `docker-compose.openai-edge-tts.yml`:
+These variables are used in the `docker-compose.openai-edge-tts.yml` configuration:
 
-- `AUDIO_TTS_OPENAI_API_BASE_URL`: URL API для взаимодействия с сервисом OpenAI Edge TTS (например, `http://openai-edge-tts:5050`).
-- `AUDIO_TTS_OPENAI_API_KEY`: Ключ API для аутентификации запросов к OpenAI Edge TTS.
-- `AUDIO_TTS_ENGINE`: Движок Text-to-Speech, используемый по умолчанию (например, `openai`).
-- `AUDIO_TTS_VOICE`: Голос, используемый по умолчанию (например, `ru-RU-DmitryNeural`).
-- `WHISPER_MODEL`: Модель Whisper, используемая для обработки аудио (например, `medium`).
+- `AUDIO_TTS_OPENAI_API_BASE_URL`: API URL for interacting with OpenAI Edge TTS service (e.g., `http://openai-edge-tts:5050`).
+- `AUDIO_TTS_OPENAI_API_KEY`: API key for authenticating requests to OpenAI Edge TTS.
+- `AUDIO_TTS_ENGINE`: Default Text-to-Speech engine used (e.g., `openai`).
+- `AUDIO_TTS_VOICE`: Default voice used (e.g., `ru-RU-DmitryNeural`).
+- `WHISPER_MODEL`: Whisper model used for audio processing (e.g., `medium`).
 
-## Конфигурация Docker Compose
+## 🐳 Docker Compose Configuration
 
-- Основной файл конфигурации: `docker-compose.yml`
-- Dev-конфигурация (для разработки): `docker-compose.dev.yml`
-  - Добавляет сеть `open-webui-workspace-network` для взаимодействия с внешними сервисами в dev-среде.
-- Конфигурация OpenAI Edge TTS: `docker-compose.openai-edge-tts.yml`
-  - Содержит переменные среды и настройки для интеграции OpenAI Edge TTS.
-- Конфигурация OpenedAI Speech: `docker-compose.openedai-speech.yml`
+- Main configuration file: `docker-compose.yml`
+- Dev configuration (for development): `docker-compose.dev.yml`
+  - Adds `open-webui-workspace-network` network for interaction with external services in dev environment.
+- OpenAI Edge TTS configuration: `docker-compose.openai-edge-tts.yml`
+  - Contains environment variables and settings for OpenAI Edge TTS integration.
+- OpenedAI Speech configuration: `docker-compose.openedai-speech.yml`
 
-## Запуск
+## 🚀 Running
 
-Используйте скрипт `docker-compose-run.sh` для запуска всех сервисов:
+Use the `docker-compose-run.sh` script to start all services:
+
 ```bash
 ./docker-compose-run.sh
 ```
 
-Убедитесь, что вы указали корректные значения для всех переменных среды в соответствующих файлах конфигурации Docker Compose.
+Make sure you specify correct values for all environment variables in the corresponding Docker Compose configuration files.

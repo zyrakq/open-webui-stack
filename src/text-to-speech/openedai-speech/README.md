@@ -1,35 +1,34 @@
-# OpenedAI Speech Integration
+# 🎵 OpenedAI Speech Integration
 
-Этот проект предоставляет интеграцию `openedai-speech` с поддержкой NVIDIA GPU и кастомными голосами.
+This project provides `openedai-speech` integration with NVIDIA GPU support and custom voices.
 
-## Настройка
+## ⚙️ Configuration
 
-Обновите файл `config/voice_to_speaker.yaml`, добавив пути к вашим аудиофайлам.
+Update the `config/voice_to_speaker.yaml` file by adding paths to your audio files.
 
-## Запуск
+## 🚀 Running
 
-Для запуска используйте команду:
+To start the service, use the command:
 
 ```bash
 docker-compose up -d
 ```
 
-Сервис будет доступен по адресу `http://localhost:8000`.
+The service will be available at `http://localhost:8000`.
 
-## Подключение NVIDIA GPU
+## 🖥️ NVIDIA GPU Connection
 
-Для использования NVIDIA GPU убедитесь, что установлен [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html). Конфигурация GPU уже включена в `docker-compose.yml`.
+To use NVIDIA GPU, make sure you have [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed. GPU configuration is already included in `docker-compose.yml`.
 
-## Пример использования
+## 📝 Usage Example
 
-Пример запроса для генерации речи:
+Example request for speech generation:
 
 ```bash
 curl -X POST http://localhost:8000/v1/audio/speech \
   -H "Content-Type: application/json" \
   -d '{
-    "input": "Пример текста для преобразования в речь.",
+    "input": "Example text for text-to-speech conversion.",
     "voice": "custom_voice_1",
     "response_format": "mp3"
   }' --output speech.mp3
-```

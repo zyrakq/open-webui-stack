@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# Запуск docker-compose с основным файлом, файлом прокси, OpenedAI Speech и dev-конфигурацией
-docker-compose -f docker-compose.yml -f docker-compose.proxy.yml -f docker-compose.openedai-speech.yml -f docker-compose.dev.yml up -d --build

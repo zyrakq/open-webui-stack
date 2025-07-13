@@ -1,20 +1,57 @@
-# Open WebUI Workspace
+# 🐳 Open WebUI Docker Stack
 
-Этот проект содержит несколько подпроектов, связанных с Open WebUI.
+This project contains a collection of Docker configurations and compose files for running Open WebUI and related services.
 
-## Подпроекты
+## 🧩 Components
 
-### [Open WebUI](src/open-webui)
+### [🔒 Let's Encrypt Manager](src/letsencrypt-manager)
 
-Open WebUI — основной сервис, предоставляющий пользовательский интерфейс.  
-[Подробнее о настройке Open WebUI](src/open-webui/README.md).
+Automatic SSL certificate management from Let's Encrypt for production deployments. Provides seamless HTTPS integration for Docker containers using nginx-proxy and acme-companion.
+[Learn more about Let's Encrypt Manager configuration](src/letsencrypt-manager/README.md).
 
-### [Text-to-Speech](src/text-to-speech)
+### [🏠 Step CA Manager](src/step-ca-manager)
 
-Text-to-Speech — сервисы для преобразования текста в речь.  
-[Подробнее о настройке Text-to-Speech](src/text-to-speech/README.md).
+Local domain stack with trusted self-signed certificates for virtual network deployments. Includes private CA management and local DNS resolution for development environments.
+[Learn more about Step CA Manager configuration](src/step-ca-manager/README.md).
 
-## Запуск
+## � Services
 
-Для запуска используйте соответствующие `docker-compose.yml` файлы в подпроектах. Убедитесь, что все переменные среды настроены корректно.
+### [🌐 Open WebUI](src/open-webui)
 
+Open WebUI — the main service providing a user interface for AI interactions.  
+[Learn more about Open WebUI configuration](src/open-webui/README.md).
+
+### [🗣️ Text-to-Speech](src/text-to-speech)
+
+Text-to-Speech — services for converting text to speech with various TTS engines.  
+[Learn more about Text-to-Speech configuration](src/text-to-speech/README.md).
+
+## 🚀 Getting Started
+
+To run the services, use the appropriate `docker-compose.yml` files in the subprojects. Make sure all environment variables are configured correctly.
+
+Each service directory contains:
+
+- 📋 Docker Compose configurations
+- 🔧 Environment variable examples
+- 📖 Detailed setup instructions
+- 🛠️ Helper scripts for development and production
+
+## 🏗️ Project Structure
+
+```sh
+├── src/
+│   ├── letsencrypt-manager/ # Let's Encrypt SSL certificate management
+│   ├── step-ca-manager/     # Local CA and trusted certificates
+│   ├── open-webui/          # Main Open WebUI service configs
+│   └── text-to-speech/      # TTS service configurations
+│       ├── openai-edge-tts/ # OpenAI Edge TTS setup
+│       └── openedai-speech/ # OpenedAI Speech setup
+```
+
+## 📄 License
+
+This project is dual-licensed under:
+
+- [Apache License 2.0](LICENSE-APACHE)
+- [MIT License](LICENSE-MIT)

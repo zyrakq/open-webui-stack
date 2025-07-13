@@ -1,38 +1,80 @@
 {
-    "name": "Open WebUI Arch Workspace",
-    "dockerComposeFile": ["docker/docker-compose.yml", "docker/${localEnv:DOCKER_COMPOSE_FILE:docker-compose.yml}"],
-    "service": "open-webui-workspace",
-    "shutdownAction": "stopCompose",
-    "workspaceFolder": "/workspace/open-webui-stack",
-    "remoteUser": "abc",
-    "remoteEnv": {
-        "REPO_URL": "git@github.com:zyrakq/open-webui-stack.git",
-        "WORKSPACE_FOLDER": "/workspace/open-webui-stack"
+    "name": "open-webui-stack Workspace (Archlinux)",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".",
+        "args": {
+            "VARIANT": "latest"
+        }
     },
-    "forwardPorts": ["open-webui:8080"],
-    "postCreateCommand": "/setup_container.sh && /clone-repo.sh",
+    "workspaceFolder": "/workspace/open-webui-stack",
+    "workspaceMount": "source=open-webui-stack-workspace,target=/workspace/open-webui-stack,type=volume",
+    "mounts": [
+        "source=open-webui-stack-home,target=/home/vscode,type=volume"
+    ],
+    "remoteUser": "vscode",
+    "runArgs": [
+        "--name",
+        "open-webui-stack-workspace",
+        "--network=open-webui-stack-workspace-network"
+    ],
+    "features": {
+        "ghcr.io/bartventer/arch-devcontainer-features/common-utils:1": {
+            "username": "vscode",
+            "additionalPackages": "base-devel",
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/bartventer/arch-devcontainer-features/docker-outside-of-docker:1": {},
+        "ghcr.io/zyrakq/arch-devcontainer-features/clone-repo:1": {
+            "repoUrl": "git@github.com:zyrakq/open-webui-stack.git",
+            "targetDir": "/workspace/open-webui-stack"
+        }
+    },
+    "initializeCommand": [
+        "bash",
+        "-c",
+        "docker network ls | grep -q open-webui-stack-workspace-network || docker network create open-webui-stack-workspace-network"
+    ],
+    "postCreateCommand": [
+        "bash",
+        "-c",
+        "git config --global commit.template /workspace/open-webui-stack/.gitmessage"
+    ],
     "customizations": {
         "vscode": {
             "extensions": [
                 // VSCode
                 "vscode-icons-team.vscode-icons",
                 "aaron-bond.better-comments",
+                "davidanson.vscode-markdownlint",
                 "IBM.output-colorizer",
                 "bierner.markdown-mermaid",
-
                 // Docker
                 "ms-azuretools.vscode-docker",
-
                 // Git
                 "eamodio.gitlens",
                 "codezombiech.gitignore",
-
-                // Continue
-                "continue.continue"
-
+                // AI Assistant
+                "kilocode.kilo-code"
             ],
             "settings": {
-                "workbench.iconTheme": "vscode-icons"
+                "extensions.autoCheckUpdates": false,
+                "extensions.ignoreRecommendations": true,
+                "files.exclude": {
+                    "**/.git": false
+                },
+                "workbench.iconTheme": "vscode-icons",
+                "files.associations": {
+                    "*.json": "jsonc"
+                },
+                "editor.formatOnSave": true,
+                "kilo-code.allowedCommands": [
+                    "git log",
+                    "git diff",
+                    "git show"
+                ]
             }
         }
     }

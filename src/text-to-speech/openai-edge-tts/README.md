@@ -1,26 +1,26 @@
-# OpenAI Edge TTS
+# 🎤 OpenAI Edge TTS
 
-Этот проект предоставляет контейнер для использования OpenAI Edge TTS. Ниже приведено описание переменных среды, используемых в `docker-compose.yml`:
+This project provides a container for using OpenAI Edge TTS. Below is a description of the environment variables used in `docker-compose.yml`:
 
-## Переменные среды
+## 🔧 Environment Variables
 
-- `TZ`: Часовой пояс контейнера (например, `UTC`).
-- `API_KEY`: Ключ API для аутентификации запросов.
-- `PORT`: Порт, на котором работает сервис (по умолчанию `5050`).
-- `DEFAULT_VOICE`: Голос, используемый по умолчанию (например, `ru-RU-DmitryNeural`).
-- `DEFAULT_RESPONSE_FORMAT`: Формат ответа (например, `mp3`).
-- `DEFAULT_SPEED`: Скорость речи (например, `1.0`).
-- `DEFAULT_LANGUAGE`: Язык, используемый по умолчанию (например, `ru-RU`).
-- `REQUIRE_API_KEY`: Требовать ли API-ключ для запросов (`True` или `False`).
-- `REMOVE_FILTER`: Удалять ли фильтры (например, `False`).
-- `EXPAND_API`: Расширять ли API для дополнительных возможностей (`True` или `False`).
+- `TZ`: Container timezone (e.g., `UTC`).
+- `API_KEY`: API key for request authentication.
+- `PORT`: Port on which the service runs (default `5050`).
+- `DEFAULT_VOICE`: Default voice used (e.g., `ru-RU-DmitryNeural`).
+- `DEFAULT_RESPONSE_FORMAT`: Response format (e.g., `mp3`).
+- `DEFAULT_SPEED`: Speech speed (e.g., `1.0`).
+- `DEFAULT_LANGUAGE`: Default language used (e.g., `ru-RU`).
+- `REQUIRE_API_KEY`: Whether to require API key for requests (`True` or `False`).
+- `REMOVE_FILTER`: Whether to remove filters (e.g., `False`).
+- `EXPAND_API`: Whether to expand API for additional capabilities (`True` or `False`).
 
-## Запуск
+## 🚀 Running
 
-Для запуска используйте команду:
+To start the service, use the command:
 
 ```sh
 docker-compose up -d
 ```
 
-Убедитесь, что вы указали корректные значения для переменных среды в `docker-compose.yml`.
+Make sure you specify correct values for environment variables in `docker-compose.yml`.
