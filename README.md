@@ -4,15 +4,17 @@ This project contains a collection of Docker configurations and compose files fo
 
 ## 🧩 Components
 
-### [🔒 Let's Encrypt Manager](src/letsencrypt-manager)
+### 🔐 SSL Automation
+
+#### [🔒 Let's Encrypt Manager](src/ssl-automation/letsencrypt-manager)
 
 Automatic SSL certificate management from Let's Encrypt for production deployments. Provides seamless HTTPS integration for Docker containers using nginx-proxy and acme-companion.
-[Learn more about Let's Encrypt Manager configuration](src/letsencrypt-manager/README.md).
+[Learn more about Let's Encrypt Manager configuration](src/ssl-automation/letsencrypt-manager/README.md).
 
-### [🏠 Step CA Manager](src/step-ca-manager)
+#### [🏠 Step CA Manager](src/ssl-automation/step-ca-manager)
 
 Local domain stack with trusted self-signed certificates for virtual network deployments. Includes private CA management and local DNS resolution for development environments.
-[Learn more about Step CA Manager configuration](src/step-ca-manager/README.md).
+[Learn more about Step CA Manager configuration](src/ssl-automation/step-ca-manager/README.md).
 
 ## � Services
 
@@ -41,8 +43,9 @@ Each service directory contains:
 
 ```sh
 ├── src/
-│   ├── letsencrypt-manager/ # Let's Encrypt SSL certificate management
-│   ├── step-ca-manager/     # Local CA and trusted certificates
+│   ├── ssl-automation/      # SSL certificate automation
+│   │   ├── letsencrypt-manager/ # Let's Encrypt SSL certificate management
+│   │   └── step-ca-manager/     # Local CA and trusted certificates
 │   ├── open-webui/          # Main Open WebUI service configs
 │   └── text-to-speech/      # TTS service configurations
 │       ├── openai-edge-tts/ # OpenAI Edge TTS setup
