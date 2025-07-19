@@ -4,3 +4,6 @@
 [submodule "src/ssl-automation/step-ca-manager"]
 	path = src/ssl-automation/step-ca-manager
 	url = https://github.com/zyrakq/step-ca-manager-stack.git
+[submodule "src/identity-management/keycloak"]
+	path = src/identity-management/keycloak
+	url = https://github.com/zyrakq/keycloak-stack.git
