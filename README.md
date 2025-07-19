@@ -16,7 +16,14 @@ Automatic SSL certificate management from Let's Encrypt for production deploymen
 Local domain stack with trusted self-signed certificates for virtual network deployments. Includes private CA management and local DNS resolution for development environments.
 [Learn more about Step CA Manager configuration](src/ssl-automation/step-ca-manager/README.md).
 
-## � Services
+### 🔑 Identity Management
+
+#### [🔐 Keycloak](src/identity-management/keycloak)
+
+Enterprise-grade identity and access management solution. Provides authentication, authorization, and user management for secure application access.
+[Learn more about Keycloak configuration](src/identity-management/keycloak/README.md).
+
+## 🌐 Services
 
 ### [🌐 Open WebUI](src/open-webui)
 
@@ -46,6 +53,8 @@ Each service directory contains:
 │   ├── ssl-automation/      # SSL certificate automation
 │   │   ├── letsencrypt-manager/ # Let's Encrypt SSL certificate management
 │   │   └── step-ca-manager/     # Local CA and trusted certificates
+│   ├── identity-management/ # Identity and access management
+│   │   └── keycloak/        # Keycloak identity provider
 │   ├── open-webui/          # Main Open WebUI service configs
 │   └── text-to-speech/      # TTS service configurations
 │       ├── openai-edge-tts/ # OpenAI Edge TTS setup

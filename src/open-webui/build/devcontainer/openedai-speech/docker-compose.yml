@@ -1,0 +1,36 @@
+name: base
+networks:
+  open-webui-network:
+    name: open-webui-network
+  open-webui-workspace-network:
+    external: true
+    name: open-webui-workspace-network
+services:
+  open-webui:
+    container_name: open-webui
+    environment:
+      - OPENAI_API_BASE_URL=$OPENAI_API_BASE_URL
+      - OPENAI_API_KEY=$OPENAI_API_KEY
+      - TASK_MODEL_EXTERNAL=google/gemini-2.5-pro-exp-03-25:free
+      - DEFAULT_MODELS=gemini-2.5-pro-exp-03-25:free
+      - DEFAULT_LOCALE=ru
+      - ENABLE_EVALUATION_ARENA_MODELS=False
+      - ENABLE_OLLAMA_API=False
+      - WEBUI_SECRET_KEY=B7qrb5MN9NOknfeKcwwO2Q==
+      - AUDIO_TTS_ENGINE=openai
+      - AUDIO_TTS_OPENAI_API_BASE_URL=http://openedai-speech:8000/v1
+      - AUDIO_TTS_API_KEY=dummy_key
+      - AUDIO_TTS_VOICE=mixed
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
+    networks:
+      open-webui-network: null
+      open-webui-workspace-network: null
+    restart: always
+    volumes:
+      - source: open-webui
+        target: /app/backend/data
+        type: volume
+        volume: {}
+volumes:
+  open-webui:
+    name: open-webui
