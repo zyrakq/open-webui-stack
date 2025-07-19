@@ -6,14 +6,14 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
-      - OPENAI_API_BASE_URL=$OPENAI_API_BASE_URL
-      - OPENAI_API_KEY=$OPENAI_API_KEY
-      - TASK_MODEL_EXTERNAL=google/gemini-2.5-pro-exp-03-25:free
-      - DEFAULT_MODELS=gemini-2.5-pro-exp-03-25:free
-      - DEFAULT_LOCALE=ru
-      - ENABLE_EVALUATION_ARENA_MODELS=False
-      - ENABLE_OLLAMA_API=False
-      - "WEBUI_SECRET_KEY=B7qrb5MN9NOknfeKcwwO2Q=="
+      OPENAI_API_BASE_URL: $OPENAI_API_BASE_URL
+      OPENAI_API_KEY: $OPENAI_API_KEY
+      TASK_MODEL_EXTERNAL: google/gemini-2.5-pro-exp-03-25:free
+      DEFAULT_MODELS: gemini-2.5-pro-exp-03-25:free
+      DEFAULT_LOCALE: ru
+      ENABLE_EVALUATION_ARENA_MODELS: False
+      ENABLE_OLLAMA_API: False
+      WEBUI_SECRET_KEY: B7qrb5MN9NOknfeKcwwO2Q==
     networks:
       - open-webui-network
 

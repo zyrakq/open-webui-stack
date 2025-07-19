@@ -1,36 +1,31 @@
-name: base
-networks:
-  letsencrypt-network:
-    external: true
-    name: letsencrypt-network
-  open-webui-network:
-    name: open-webui-network
 services:
   open-webui:
-    container_name: open-webui
-    environment:
-      - OPENAI_API_BASE_URL=$OPENAI_API_BASE_URL
-      - OPENAI_API_KEY=$OPENAI_API_KEY
-      - TASK_MODEL_EXTERNAL=google/gemini-2.5-pro-exp-03-25:free
-      - DEFAULT_MODELS=gemini-2.5-pro-exp-03-25:free
-      - DEFAULT_LOCALE=ru
-      - ENABLE_EVALUATION_ARENA_MODELS=False
-      - ENABLE_OLLAMA_API=False
-      - WEBUI_SECRET_KEY=B7qrb5MN9NOknfeKcwwO2Q==
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - VIRTUAL_PORT=8080
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
-    networks:
-      letsencrypt-network: null
-      open-webui-network: null
+    container_name: open-webui
     restart: always
     volumes:
-      - source: open-webui
-        target: /app/backend/data
-        type: volume
-        volume: {}
+      - open-webui:/app/backend/data
+    environment:
+      OPENAI_API_BASE_URL: $OPENAI_API_BASE_URL
+      OPENAI_API_KEY: $OPENAI_API_KEY
+      TASK_MODEL_EXTERNAL: google/gemini-2.5-pro-exp-03-25:free
+      DEFAULT_MODELS: gemini-2.5-pro-exp-03-25:free
+      DEFAULT_LOCALE: ru
+      ENABLE_EVALUATION_ARENA_MODELS: False
+      ENABLE_OLLAMA_API: False
+      WEBUI_SECRET_KEY: B7qrb5MN9NOknfeKcwwO2Q==
+      VIRTUAL_PORT: 8080
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    networks:
+      - open-webui-network
+      - letsencrypt-network
 volumes:
   open-webui:
     name: open-webui
+networks:
+  open-webui-network:
+    name: open-webui-network
+  letsencrypt-network:
+    external: true
