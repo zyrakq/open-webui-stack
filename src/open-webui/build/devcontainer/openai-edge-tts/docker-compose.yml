@@ -6,19 +6,19 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
-      OPENAI_API_BASE_URL: $OPENAI_API_BASE_URL
-      OPENAI_API_KEY: $OPENAI_API_KEY
-      TASK_MODEL_EXTERNAL: google/gemini-2.5-pro-exp-03-25:free
-      DEFAULT_MODELS: gemini-2.5-pro-exp-03-25:free
-      DEFAULT_LOCALE: ru
-      ENABLE_EVALUATION_ARENA_MODELS: False
-      ENABLE_OLLAMA_API: False
-      WEBUI_SECRET_KEY: B7qrb5MN9NOknfeKcwwO2Q==
-      WHISPER_MODEL: medium # Whisper model for OpenAI Edge TTS
-      AUDIO_TTS_ENGINE: openai # Text-to-Speech engine for OpenAI Edge TTS
-      AUDIO_TTS_OPENAI_API_BASE_URL: http://openai-edge-tts:5050 # OpenAI Edge TTS API URL
-      AUDIO_TTS_OPENAI_API_KEY: your_api_key_here # API key for OpenAI Edge TTS
-      AUDIO_TTS_VOICE: ru-RU-DmitryNeural # Voice for OpenAI Edge TTS
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      TASK_MODEL_EXTERNAL: ${TASK_MODEL_EXTERNAL}
+      DEFAULT_MODELS: ${DEFAULT_MODELS}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE}
+      ENABLE_EVALUATION_ARENA_MODELS: ${ENABLE_EVALUATION_ARENA_MODELS}
+      ENABLE_OLLAMA_API: ${ENABLE_OLLAMA_API}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      WHISPER_MODEL: ${WHISPER_MODEL} # Whisper model for OpenAI Edge TTS
+      AUDIO_TTS_ENGINE: ${AUDIO_TTS_ENGINE} # Text-to-Speech engine for OpenAI Edge TTS
+      AUDIO_TTS_OPENAI_API_BASE_URL: ${AUDIO_TTS_OPENAI_API_BASE_URL} # OpenAI Edge TTS API URL
+      AUDIO_TTS_OPENAI_API_KEY: ${AUDIO_TTS_OPENAI_API_KEY} # API key for OpenAI Edge TTS
+      AUDIO_TTS_VOICE: ${AUDIO_TTS_VOICE} # Voice for OpenAI Edge TTS
     networks:
       - open-webui-network
       - open-webui-workspace-network

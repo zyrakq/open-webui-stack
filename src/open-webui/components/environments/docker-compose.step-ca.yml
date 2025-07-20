@@ -1,7 +1,7 @@
 services:
   open-webui:
     environment:
-      VIRTUAL_PORT: 8080
+      VIRTUAL_PORT: ${VIRTUAL_PORT}
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}

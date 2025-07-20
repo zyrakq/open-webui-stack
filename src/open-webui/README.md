@@ -118,15 +118,22 @@ Each environment can be combined with any extension:
 - `OPENAI_API_KEY`: OpenAI API key
 - `WEBUI_SECRET_KEY`: Secret key for WebUI
 - `WEBUI_DOCKER_TAG`: Docker image tag (default: main)
+- `DEFAULT_LOCALE`: Default locale for the interface (default: en)
+- `ENABLE_EVALUATION_ARENA_MODELS`: Enable evaluation arena models (default: False)
+- `ENABLE_OLLAMA_API`: Enable Ollama API integration (default: False)
+- `TASK_MODEL_EXTERNAL`: External task model configuration
+- `DEFAULT_MODELS`: Default models for the interface
 
 ### Let's Encrypt Configuration
 
+- `VIRTUAL_PORT`: Port for nginx-proxy (default: 8080)
 - `VIRTUAL_HOST`: Domain for nginx-proxy
 - `LETSENCRYPT_HOST`: Domain for SSL certificate
 - `LETSENCRYPT_EMAIL`: Email for certificate registration
 
 ### Step CA Configuration
 
+- `VIRTUAL_PORT`: Port for nginx-proxy (default: 8080)
 - `VIRTUAL_HOST`: Domain for nginx-proxy
 - `LETSENCRYPT_HOST`: Domain for SSL certificate
 - `LETSENCRYPT_EMAIL`: Email for certificate registration

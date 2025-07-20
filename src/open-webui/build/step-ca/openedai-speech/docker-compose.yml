@@ -6,22 +6,22 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
-      OPENAI_API_BASE_URL: $OPENAI_API_BASE_URL
-      OPENAI_API_KEY: $OPENAI_API_KEY
-      TASK_MODEL_EXTERNAL: google/gemini-2.5-pro-exp-03-25:free
-      DEFAULT_MODELS: gemini-2.5-pro-exp-03-25:free
-      DEFAULT_LOCALE: ru
-      ENABLE_EVALUATION_ARENA_MODELS: False
-      ENABLE_OLLAMA_API: False
-      WEBUI_SECRET_KEY: B7qrb5MN9NOknfeKcwwO2Q==
-      VIRTUAL_PORT: 8080
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      TASK_MODEL_EXTERNAL: ${TASK_MODEL_EXTERNAL}
+      DEFAULT_MODELS: ${DEFAULT_MODELS}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE}
+      ENABLE_EVALUATION_ARENA_MODELS: ${ENABLE_EVALUATION_ARENA_MODELS}
+      ENABLE_OLLAMA_API: ${ENABLE_OLLAMA_API}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      VIRTUAL_PORT: ${VIRTUAL_PORT}
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      AUDIO_TTS_ENGINE: openai # Specify Text-to-Speech engine
-      AUDIO_TTS_OPENAI_API_BASE_URL: http://openedai-speech:8000/v1 # API URL for OpenedAI Speech
-      AUDIO_TTS_API_KEY: dummy_key # API key (not required, but must be filled)
-      AUDIO_TTS_VOICE: mixed # Specify default voice
+      AUDIO_TTS_ENGINE: ${AUDIO_TTS_ENGINE} # Specify Text-to-Speech engine
+      AUDIO_TTS_OPENAI_API_BASE_URL: ${AUDIO_TTS_OPENAI_API_BASE_URL} # API URL for OpenedAI Speech
+      AUDIO_TTS_API_KEY: ${AUDIO_TTS_API_KEY} # API key (not required, but must be filled)
+      AUDIO_TTS_VOICE: ${AUDIO_TTS_VOICE} # Specify default voice
     networks:
       - open-webui-network
       - step-ca-network
