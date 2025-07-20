@@ -8,19 +8,25 @@ A modular Docker Compose configuration system for Open WebUI with support for mu
 src/open-webui/
 ├── components/                              # Source compose components
 │   ├── base/                               # Base components
-│   │   ├── docker-compose.base.yml         # Main Open WebUI service
-│   │   └── .env.base                       # Base environment variables
+│   │   ├── docker-compose.yml              # Main Open WebUI service
+│   │   └── .env.example                    # Base environment variables
 │   ├── environments/                       # Environment components
-│   │   ├── docker-compose.devcontainer.yml # DevContainer environment
-│   │   ├── docker-compose.letsencrypt.yml  # Let's Encrypt SSL
-│   │   ├── docker-compose.step-ca.yml      # Step CA SSL
-│   │   ├── .env.letsencrypt                # Let's Encrypt variables
-│   │   └── .env.step-ca                    # Step CA variables
+│   │   ├── devcontainer/
+│   │   │   ├── docker-compose.yml          # DevContainer environment
+│   │   │   └── .env.example                # DevContainer variables
+│   │   ├── letsencrypt/
+│   │   │   ├── docker-compose.yml          # Let's Encrypt SSL
+│   │   │   └── .env.example                # Let's Encrypt variables
+│   │   └── step-ca/
+│   │       ├── docker-compose.yml          # Step CA SSL
+│   │       └── .env.example                # Step CA variables
 │   └── extensions/                         # Extension components
-│       ├── docker-compose.openai-edge-tts.yml   # OpenAI Edge TTS
-│       ├── docker-compose.openedai-speech.yml   # OpenedAI Speech
-│       ├── .env.openai-edge-tts            # OpenAI Edge TTS variables
-│       └── .env.openedai-speech            # OpenedAI Speech variables
+│       ├── openai-edge-tts/
+│       │   ├── docker-compose.yml          # OpenAI Edge TTS
+│       │   └── .env.example                # OpenAI Edge TTS variables
+│       └── openedai-speech/
+│           ├── docker-compose.yml          # OpenedAI Speech
+│           └── .env.example                # OpenedAI Speech variables
 ├── build/                        # Generated configurations (auto-generated)
 │   ├── devcontainer/
 │   │   ├── base/                 # DevContainer + base
@@ -157,13 +163,13 @@ Each environment can be combined with any extension:
 
 ### Adding New Components
 
-1. **New Environment**: Add `docker-compose.*.yml` file to `components/environments/` and optional `.env.*` file
-2. **New Extension**: Add `docker-compose.*.yml` file to `components/extensions/` and optional `.env.*` file
+1. **New Environment**: Create directory in `components/environments/` with `docker-compose.yml` and optional `.env.example` file
+2. **New Extension**: Create directory in `components/extensions/` with `docker-compose.yml` and optional `.env.example` file
 3. **Rebuild**: Run `./build.sh` to generate new combinations
 
 ### File Naming Convention
 
-All component files follow the Docker Compose naming convention (`docker-compose.*.yml`) for:
+All component files follow the standard Docker Compose naming convention (`docker-compose.yml`) for:
 
 - **VS Code compatibility**: Full support for Docker Compose language features and IntelliSense
 - **IDE integration**: Proper syntax highlighting and validation in all major editors
