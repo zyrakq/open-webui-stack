@@ -23,6 +23,8 @@ Local domain stack with trusted self-signed certificates for virtual network dep
 Enterprise-grade identity and access management solution. Provides authentication, authorization, and user management for secure application access.
 [Learn more about Keycloak configuration](src/identity-management/keycloak/README.md).
 
+For Open WebUI integration, see: [Keycloak Integration](https://docs.openwebui.com/features/sso/keycloak)
+
 ## 🌐 Services
 
 ### [🌐 Open WebUI](src/open-webui)
