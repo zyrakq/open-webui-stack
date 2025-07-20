@@ -6,21 +6,21 @@ A modular Docker Compose configuration system for Open WebUI with support for mu
 
 ```sh
 src/open-webui/
-├── components/                    # Source compose components
-│   ├── base/                     # Base components
-│   │   ├── base.yml              # Main Open WebUI service
-│   │   └── .env.base             # Base environment variables
-│   ├── environments/             # Environment components
-│   │   ├── devcontainer.yml      # DevContainer environment
-│   │   ├── letsencrypt.yml       # Let's Encrypt SSL
-│   │   ├── step-ca.yml           # Step CA SSL
-│   │   ├── .env.letsencrypt      # Let's Encrypt variables
-│   │   └── .env.step-ca          # Step CA variables
-│   └── extensions/               # Extension components
-│       ├── openai-edge-tts.yml   # OpenAI Edge TTS
-│       ├── openedai-speech.yml   # OpenedAI Speech
-│       ├── .env.openai-edge-tts  # OpenAI Edge TTS variables
-│       └── .env.openedai-speech  # OpenedAI Speech variables
+├── components/                              # Source compose components
+│   ├── base/                               # Base components
+│   │   ├── docker-compose.base.yml         # Main Open WebUI service
+│   │   └── .env.base                       # Base environment variables
+│   ├── environments/                       # Environment components
+│   │   ├── docker-compose.devcontainer.yml # DevContainer environment
+│   │   ├── docker-compose.letsencrypt.yml  # Let's Encrypt SSL
+│   │   ├── docker-compose.step-ca.yml      # Step CA SSL
+│   │   ├── .env.letsencrypt                # Let's Encrypt variables
+│   │   └── .env.step-ca                    # Step CA variables
+│   └── extensions/                         # Extension components
+│       ├── docker-compose.openai-edge-tts.yml   # OpenAI Edge TTS
+│       ├── docker-compose.openedai-speech.yml   # OpenedAI Speech
+│       ├── .env.openai-edge-tts            # OpenAI Edge TTS variables
+│       └── .env.openedai-speech            # OpenedAI Speech variables
 ├── build/                        # Generated configurations (auto-generated)
 │   ├── devcontainer/
 │   │   ├── base/                 # DevContainer + base
@@ -150,9 +150,18 @@ Each environment can be combined with any extension:
 
 ### Adding New Components
 
-1. **New Environment**: Add `.yml` file to `components/environments/` and optional `.env.*` file
-2. **New Extension**: Add `.yml` file to `components/extensions/` and optional `.env.*` file
+1. **New Environment**: Add `docker-compose.*.yml` file to `components/environments/` and optional `.env.*` file
+2. **New Extension**: Add `docker-compose.*.yml` file to `components/extensions/` and optional `.env.*` file
 3. **Rebuild**: Run `./build.sh` to generate new combinations
+
+### File Naming Convention
+
+All component files follow the Docker Compose naming convention (`docker-compose.*.yml`) for:
+
+- **VS Code compatibility**: Full support for Docker Compose language features and IntelliSense
+- **IDE integration**: Proper syntax highlighting and validation in all major editors
+- **Tool compatibility**: Works with Docker Compose plugins and extensions
+- **Standard compliance**: Follows official Docker Compose file naming patterns
 
 ### Modifying Existing Components
 

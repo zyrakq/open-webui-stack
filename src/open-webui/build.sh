@@ -28,8 +28,8 @@ merge_yaml() {
 mkdir -p "$BUILD_DIR"
 
 # Get environments and extensions
-environments=($(ls $COMPONENTS_DIR/environments/*.yml | xargs -n1 basename | sed 's/\.yml$//' | sort))
-extensions=($(ls $COMPONENTS_DIR/extensions/*.yml | xargs -n1 basename | sed 's/\.yml$//' | sort))
+environments=($(ls $COMPONENTS_DIR/environments/docker-compose.*.yml | xargs -n1 basename | sed 's/docker-compose\.\(.*\)\.yml$/\1/' | sort))
+extensions=($(ls $COMPONENTS_DIR/extensions/docker-compose.*.yml | xargs -n1 basename | sed 's/docker-compose\.\(.*\)\.yml$/\1/' | sort))
 
 echo "Building configurations..."
 
@@ -40,8 +40,8 @@ for env in "${environments[@]}"; do
     
     # Merge compose files using yq
     yq eval-all 'select(fileIndex == 0) *+ select(fileIndex == 1)' \
-        "$COMPONENTS_DIR/base/base.yml" \
-        "$COMPONENTS_DIR/environments/$env.yml" > "$build_dir/docker-compose.yml"
+        "$COMPONENTS_DIR/base/docker-compose.base.yml" \
+        "$COMPONENTS_DIR/environments/docker-compose.$env.yml" > "$build_dir/docker-compose.yml"
     
     # Merge env files
     cat $COMPONENTS_DIR/base/.env.base > "$build_dir/.env.example"
@@ -58,9 +58,9 @@ for env in "${environments[@]}"; do
         
         # Merge compose files using yq
         yq eval-all 'select(fileIndex == 0) *+ select(fileIndex == 1) *+ select(fileIndex == 2)' \
-            "$COMPONENTS_DIR/base/base.yml" \
-            "$COMPONENTS_DIR/environments/$env.yml" \
-            "$COMPONENTS_DIR/extensions/$ext.yml" > "$build_dir/docker-compose.yml"
+            "$COMPONENTS_DIR/base/docker-compose.base.yml" \
+            "$COMPONENTS_DIR/environments/docker-compose.$env.yml" \
+            "$COMPONENTS_DIR/extensions/docker-compose.$ext.yml" > "$build_dir/docker-compose.yml"
         
         # Merge env files
         cat $COMPONENTS_DIR/base/.env.base > "$build_dir/.env.example"
