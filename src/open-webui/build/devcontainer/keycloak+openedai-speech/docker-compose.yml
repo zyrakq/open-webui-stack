@@ -1,0 +1,37 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
+    container_name: open-webui
+    restart: always
+    volumes:
+      - open-webui:/app/backend/data
+    environment:
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      TASK_MODEL_EXTERNAL: ${TASK_MODEL_EXTERNAL}
+      DEFAULT_MODELS: ${DEFAULT_MODELS}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE}
+      ENABLE_EVALUATION_ARENA_MODELS: ${ENABLE_EVALUATION_ARENA_MODELS}
+      ENABLE_OLLAMA_API: ${ENABLE_OLLAMA_API}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      ENABLE_OAUTH_SIGNUP: ${ENABLE_OAUTH_SIGNUP}
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
+      OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
+      OPENID_REDIRECT_URI: ${OPENID_REDIRECT_URI}
+      AUDIO_TTS_ENGINE: ${AUDIO_TTS_ENGINE} # Specify Text-to-Speech engine
+      AUDIO_TTS_OPENAI_API_BASE_URL: ${AUDIO_TTS_OPENAI_API_BASE_URL} # API URL for OpenedAI Speech
+      AUDIO_TTS_API_KEY: ${AUDIO_TTS_API_KEY} # API key (not required, but must be filled)
+      AUDIO_TTS_VOICE: ${AUDIO_TTS_VOICE} # Specify default voice
+    networks:
+      - open-webui-network
+      - open-webui-workspace-network
+volumes:
+  open-webui:
+    name: open-webui
+networks:
+  open-webui-network:
+    name: open-webui-network
+  open-webui-workspace-network:
+    external: true

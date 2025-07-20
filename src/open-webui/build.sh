@@ -6,6 +6,7 @@ set -e
 
 COMPONENTS_DIR="components"
 BUILD_DIR="build"
+EXTENSIONS_CONFIG="extensions.yml"
 
 # Check for required tools
 if ! command -v yq &> /dev/null; then
@@ -47,6 +48,100 @@ copy_additional_files() {
             echo "    Copied: $rel_path"
         done
     fi
+}
+
+# Function to parse YAML and get extension combinations
+parse_extension_combinations() {
+    local config_file="$1"
+    
+    if [ ! -f "$config_file" ]; then
+        echo "[]"
+        return
+    fi
+    
+    # Extract combinations from YAML using yq
+    yq eval '.combinations[] | .name + ":" + (.extensions | join(","))' "$config_file" 2>/dev/null || echo "[]"
+}
+
+# Function to check if extensions are compatible
+are_extensions_compatible() {
+    local config_file="$1"
+    shift
+    local extensions=("$@")
+    
+    if [ ! -f "$config_file" ]; then
+        return 0  # If no config, assume compatible
+    fi
+    
+    # Check group conflicts
+    for ext1 in "${extensions[@]}"; do
+        for ext2 in "${extensions[@]}"; do
+            if [ "$ext1" != "$ext2" ]; then
+                # Get groups for both extensions
+                group1=$(yq eval ".groups[] | select(.extensions[] == \"$ext1\") | key" "$config_file" 2>/dev/null)
+                group2=$(yq eval ".groups[] | select(.extensions[] == \"$ext2\") | key" "$config_file" 2>/dev/null)
+                
+                # If both extensions are in the same group, they conflict
+                if [ -n "$group1" ] && [ "$group1" = "$group2" ]; then
+                    return 1
+                fi
+            fi
+        done
+    done
+    
+    return 0
+}
+
+# Function to build extension combination
+build_extension_combination() {
+    local env="$1"
+    local combination_name="$2"
+    shift 2
+    local extensions=("$@")
+    
+    local build_dir="$BUILD_DIR/$env/$combination_name"
+    mkdir -p "$build_dir"
+    
+    echo "Building: $env/$combination_name (${extensions[*]})"
+    
+    # Start with base and environment
+    local compose_files=("$COMPONENTS_DIR/base/docker-compose.yml" "$COMPONENTS_DIR/environments/$env/docker-compose.yml")
+    
+    # Add extension compose files
+    for ext in "${extensions[@]}"; do
+        compose_files+=("$COMPONENTS_DIR/extensions/$ext/docker-compose.yml")
+    done
+    
+    # Build yq command for merging multiple files
+    local yq_cmd="yq eval-all 'select(fileIndex == 0)"
+    for ((i=1; i<${#compose_files[@]}; i++)); do
+        yq_cmd+=" *+ select(fileIndex == $i)"
+    done
+    yq_cmd+="'"
+    
+    # Execute yq command
+    eval "$yq_cmd ${compose_files[*]}" > "$build_dir/docker-compose.yml"
+    
+    # Merge env files
+    cat "$COMPONENTS_DIR/base/.env.example" > "$build_dir/.env.example"
+    [ -f "$COMPONENTS_DIR/environments/$env/.env.example" ] && echo "" >> "$build_dir/.env.example" && cat "$COMPONENTS_DIR/environments/$env/.env.example" >> "$build_dir/.env.example"
+    
+    for ext in "${extensions[@]}"; do
+        [ -f "$COMPONENTS_DIR/extensions/$ext/.env.example" ] && echo "" >> "$build_dir/.env.example" && cat "$COMPONENTS_DIR/extensions/$ext/.env.example" >> "$build_dir/.env.example"
+    done
+    
+    # Copy additional files from base
+    copy_additional_files "$COMPONENTS_DIR/base" "$build_dir"
+    
+    # Copy additional files from environment
+    copy_additional_files "$COMPONENTS_DIR/environments/$env" "$build_dir"
+    
+    # Copy additional files from extensions
+    for ext in "${extensions[@]}"; do
+        copy_additional_files "$COMPONENTS_DIR/extensions/$ext" "$build_dir"
+    done
+    
+    echo "  Built: $env/$combination_name"
 }
 
 # Backup existing user .env files
@@ -160,6 +255,52 @@ if [ ${#extensions[@]} -gt 0 ]; then
     done
 fi
 
+# Build extension combinations (if extensions.yml exists)
+if [ -f "$EXTENSIONS_CONFIG" ]; then
+    echo "Found extensions configuration, building combinations..."
+    
+    # Parse combinations from YAML
+    combinations=$(parse_extension_combinations "$EXTENSIONS_CONFIG")
+    
+    if [ "$combinations" != "[]" ] && [ -n "$combinations" ]; then
+        for env in "${environments[@]}"; do
+            while IFS= read -r combination_line; do
+                if [ -n "$combination_line" ]; then
+                    # Parse combination name and extensions
+                    combination_name=$(echo "$combination_line" | cut -d':' -f1)
+                    extensions_str=$(echo "$combination_line" | cut -d':' -f2)
+                    
+                    # Convert comma-separated extensions to array
+                    IFS=',' read -ra combination_extensions <<< "$extensions_str"
+                    
+                    # Validate that all extensions exist
+                    all_exist=true
+                    for ext in "${combination_extensions[@]}"; do
+                        if [ ! -d "$COMPONENTS_DIR/extensions/$ext" ]; then
+                            echo "Warning: Extension '$ext' not found, skipping combination '$combination_name'"
+                            all_exist=false
+                            break
+                        fi
+                    done
+                    
+                    if [ "$all_exist" = true ]; then
+                        # Check compatibility
+                        if are_extensions_compatible "$EXTENSIONS_CONFIG" "${combination_extensions[@]}"; then
+                            build_extension_combination "$env" "$combination_name" "${combination_extensions[@]}"
+                        else
+                            echo "Warning: Extensions in combination '$combination_name' are not compatible, skipping"
+                        fi
+                    fi
+                fi
+            done <<< "$combinations"
+        done
+    else
+        echo "No valid combinations found in extensions configuration"
+    fi
+else
+    echo "No extensions configuration found, skipping combinations"
+fi
+
 # Restore user .env files
 echo "Restoring user .env files..."
 if [ -d "$backup_dir" ]; then
@@ -185,11 +326,40 @@ echo ""
 echo "Build completed! Generated configurations in: $BUILD_DIR"
 echo ""
 echo "Available configurations:"
+
+# List all generated configurations
 for env in "${environments[@]}"; do
     echo "  - $env/base"
+    
+    # List single extensions
     if [ ${#extensions[@]} -gt 0 ]; then
         for ext in "${extensions[@]}"; do
             echo "  - $env/$ext"
         done
     fi
+    
+    # List combinations (if extensions.yml exists)
+    if [ -f "$EXTENSIONS_CONFIG" ]; then
+        combinations=$(parse_extension_combinations "$EXTENSIONS_CONFIG")
+        if [ "$combinations" != "[]" ] && [ -n "$combinations" ]; then
+            while IFS= read -r combination_line; do
+                if [ -n "$combination_line" ]; then
+                    combination_name=$(echo "$combination_line" | cut -d':' -f1)
+                    extensions_str=$(echo "$combination_line" | cut -d':' -f2)
+                    
+                    # Check if combination directory exists (was successfully built)
+                    if [ -d "$BUILD_DIR/$env/$combination_name" ]; then
+                        echo "  - $env/$combination_name (${extensions_str//,/ + })"
+                    fi
+                fi
+            done <<< "$combinations"
+        fi
+    fi
 done
+
+echo ""
+if [ -f "$EXTENSIONS_CONFIG" ]; then
+    echo "Extension combinations are configured via: $EXTENSIONS_CONFIG"
+else
+    echo "To enable extension combinations, create: $EXTENSIONS_CONFIG"
+fi

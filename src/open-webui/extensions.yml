@@ -1,0 +1,46 @@
+# Extension compatibility configuration for Open WebUI
+# This file defines how extensions can be combined together
+version: "1.0"
+
+# Extension groups - extensions in the same group conflict with each other
+# Only one extension from each group can be used in a combination
+groups:
+  tts:
+    description: "Text-to-Speech services (mutually exclusive)"
+    extensions:
+      - openai-edge-tts
+      - openedai-speech
+  
+  auth:
+    description: "Authentication services"
+    extensions:
+      - keycloak
+
+# Global conflicts (beyond groups)
+# Extensions listed here cannot be used together regardless of groups
+conflicts:
+  # Currently no additional conflicts beyond groups
+  # Example:
+  # - [extension1, extension2]
+
+# Valid combinations (if not specified, all non-conflicting combinations are generated)
+# This section explicitly defines which combinations should be created
+combinations:
+  - name: "keycloak+openai-edge-tts"
+    extensions: ["keycloak", "openai-edge-tts"]
+    description: "Authentication with OpenAI Edge TTS"
+  
+  - name: "keycloak+openedai-speech"
+    extensions: ["keycloak", "openedai-speech"]  
+    description: "Authentication with OpenedAI Speech"
+
+# Naming strategy for combination directories
+naming:
+  separator: "+"
+  sort: true  # Sort extension names alphabetically
+
+# Metadata
+metadata:
+  created: "2025-01-20"
+  description: "Extension compatibility configuration for Open WebUI modular system"
+  author: "Open WebUI Stack"
