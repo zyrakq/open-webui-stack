@@ -14,7 +14,7 @@ groups:
   auth:
     description: "Authentication services"
     extensions:
-      - keycloak
+      - oidc
 
 # Global conflicts (beyond groups)
 # Extensions listed here cannot be used together regardless of groups
@@ -26,12 +26,12 @@ conflicts:
 # Valid combinations (if not specified, all non-conflicting combinations are generated)
 # This section explicitly defines which combinations should be created
 combinations:
-  - name: "keycloak+openai-edge-tts"
-    extensions: ["keycloak", "openai-edge-tts"]
+  - name: "oidc+openai-edge-tts"
+    extensions: ["oidc", "openai-edge-tts"]
     description: "Authentication with OpenAI Edge TTS"
   
-  - name: "keycloak+openedai-speech"
-    extensions: ["keycloak", "openedai-speech"]  
+  - name: "oidc+openedai-speech"
+    extensions: ["oidc", "openedai-speech"]  
     description: "Authentication with OpenedAI Speech"
 
 # Naming strategy for combination directories

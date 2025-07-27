@@ -21,9 +21,9 @@ src/open-webui/
 │   │       ├── docker-compose.yml          # Step CA SSL
 │   │       └── .env.example                # Step CA variables
 │   ├── extensions/                         # Extension components
-│   │   ├── keycloak/
-│   │   │   ├── docker-compose.yml          # Keycloak OAuth2/OIDC
-│   │   │   └── .env.example                # Keycloak variables
+│   │   ├── oidc/
+│   │   │   ├── docker-compose.yml          # OIDC authentication
+│   │   │   └── .env.example                # OIDC variables
 │   │   ├── openai-edge-tts/
 │   │   │   ├── docker-compose.yml          # OpenAI Edge TTS
 │   │   │   └── .env.example                # OpenAI Edge TTS variables
@@ -34,25 +34,25 @@ src/open-webui/
 ├── build/                        # Generated configurations (auto-generated)
 │   ├── devcontainer/
 │   │   ├── base/                           # DevContainer + base
-│   │   ├── keycloak/                       # DevContainer + Keycloak
+│   │   ├── oidc/                           # DevContainer + OIDC
 │   │   ├── openai-edge-tts/                # DevContainer + OpenAI Edge TTS
 │   │   ├── openedai-speech/                # DevContainer + OpenedAI Speech
-│   │   ├── keycloak+openai-edge-tts/       # DevContainer + Keycloak + OpenAI Edge TTS
-│   │   └── keycloak+openedai-speech/       # DevContainer + Keycloak + OpenedAI Speech
+│   │   ├── oidc+openai-edge-tts/           # DevContainer + OIDC + OpenAI Edge TTS
+│   │   └── oidc+openedai-speech/           # DevContainer + OIDC + OpenedAI Speech
 │   ├── letsencrypt/
 │   │   ├── base/                           # Let's Encrypt + base
-│   │   ├── keycloak/                       # Let's Encrypt + Keycloak
+│   │   ├── oidc/                           # Let's Encrypt + OIDC
 │   │   ├── openai-edge-tts/                # Let's Encrypt + OpenAI Edge TTS
 │   │   ├── openedai-speech/                # Let's Encrypt + OpenedAI Speech
-│   │   ├── keycloak+openai-edge-tts/       # Let's Encrypt + Keycloak + OpenAI Edge TTS
-│   │   └── keycloak+openedai-speech/       # Let's Encrypt + Keycloak + OpenedAI Speech
+│   │   ├── oidc+openai-edge-tts/           # Let's Encrypt + OIDC + OpenAI Edge TTS
+│   │   └── oidc+openedai-speech/           # Let's Encrypt + OIDC + OpenedAI Speech
 │   └── step-ca/
 │       ├── base/                           # Step CA + base
-│       ├── keycloak/                       # Step CA + Keycloak
+│       ├── oidc/                           # Step CA + OIDC
 │       ├── openai-edge-tts/                # Step CA + OpenAI Edge TTS
 │       ├── openedai-speech/                # Step CA + OpenedAI Speech
-│       ├── keycloak+openai-edge-tts/       # Step CA + Keycloak + OpenAI Edge TTS
-│       └── keycloak+openedai-speech/       # Step CA + Keycloak + OpenedAI Speech
+│       ├── oidc+openai-edge-tts/           # Step CA + OIDC + OpenAI Edge TTS
+│       └── oidc+openedai-speech/           # Step CA + OIDC + OpenedAI Speech
 ├── build.sh                      # Build script
 └── README.md                     # This file
 ```
@@ -83,8 +83,8 @@ cd build/letsencrypt/base/
 # For production with Let's Encrypt + OpenedAI Speech
 cd build/letsencrypt/openedai-speech/
 
-# For production with Let's Encrypt + Keycloak + OpenAI Edge TTS
-cd build/letsencrypt/keycloak+openai-edge-tts/
+# For production with Let's Encrypt + OIDC + OpenAI Edge TTS
+cd build/letsencrypt/oidc+openai-edge-tts/
 ```
 
 ### 3. Configure Environment
@@ -114,7 +114,7 @@ docker-compose up -d
 
 ### Extensions
 
-- **keycloak**: Keycloak OAuth2/OIDC authentication integration
+- **oidc**: OAuth2/OIDC authentication integration
 - **openai-edge-tts**: OpenAI Edge TTS integration
 - **openedai-speech**: OpenedAI Speech integration
 
@@ -125,15 +125,15 @@ docker-compose up -d
 Each environment can be combined with any single extension:
 
 - `devcontainer/base` - Basic development setup
-- `devcontainer/keycloak` - Development with Keycloak authentication
+- `devcontainer/oidc` - Development with OIDC authentication
 - `devcontainer/openai-edge-tts` - Development with OpenAI Edge TTS
 - `devcontainer/openedai-speech` - Development with OpenedAI Speech
 - `letsencrypt/base` - Production with Let's Encrypt
-- `letsencrypt/keycloak` - Production with Let's Encrypt + Keycloak authentication
+- `letsencrypt/oidc` - Production with Let's Encrypt + OIDC authentication
 - `letsencrypt/openai-edge-tts` - Production with Let's Encrypt + OpenAI Edge TTS
 - `letsencrypt/openedai-speech` - Production with Let's Encrypt + OpenedAI Speech
 - `step-ca/base` - Production with Step CA
-- `step-ca/keycloak` - Production with Step CA + Keycloak authentication
+- `step-ca/oidc` - Production with Step CA + OIDC authentication
 - `step-ca/openai-edge-tts` - Production with Step CA + OpenAI Edge TTS
 - `step-ca/openedai-speech` - Production with Step CA + OpenedAI Speech
 
@@ -141,12 +141,12 @@ Each environment can be combined with any single extension:
 
 When [`extensions.yml`](extensions.yml) is present, additional combinations are generated:
 
-- `devcontainer/keycloak+openai-edge-tts` - Development with Keycloak + OpenAI Edge TTS
-- `devcontainer/keycloak+openedai-speech` - Development with Keycloak + OpenedAI Speech
-- `letsencrypt/keycloak+openai-edge-tts` - Production with Let's Encrypt + Keycloak + OpenAI Edge TTS
-- `letsencrypt/keycloak+openedai-speech` - Production with Let's Encrypt + Keycloak + OpenedAI Speech
-- `step-ca/keycloak+openai-edge-tts` - Production with Step CA + Keycloak + OpenAI Edge TTS
-- `step-ca/keycloak+openedai-speech` - Production with Step CA + Keycloak + OpenedAI Speech
+- `devcontainer/oidc+openai-edge-tts` - Development with OIDC + OpenAI Edge TTS
+- `devcontainer/oidc+openedai-speech` - Development with OIDC + OpenedAI Speech
+- `letsencrypt/oidc+openai-edge-tts` - Production with Let's Encrypt + OIDC + OpenAI Edge TTS
+- `letsencrypt/oidc+openedai-speech` - Production with Let's Encrypt + OIDC + OpenedAI Speech
+- `step-ca/oidc+openai-edge-tts` - Production with Step CA + OIDC + OpenAI Edge TTS
+- `step-ca/oidc+openedai-speech` - Production with Step CA + OIDC + OpenedAI Speech
 
 **Note**: TTS extensions (openai-edge-tts and openedai-speech) are mutually exclusive and cannot be combined together.
 
@@ -194,16 +194,16 @@ When [`extensions.yml`](extensions.yml) is present, additional combinations are 
 - `AUDIO_TTS_API_KEY`: API key (dummy value)
 - `AUDIO_TTS_VOICE`: Default voice for TTS
 
-### Keycloak Configuration
+### OIDC Configuration
 
 - `ENABLE_OAUTH_SIGNUP`: Enable OAuth2/OIDC login (default: true)
-- `OAUTH_CLIENT_ID`: Keycloak client ID for Open WebUI
-- `OAUTH_CLIENT_SECRET`: Keycloak client secret
+- `OAUTH_CLIENT_ID`: OIDC client ID for Open WebUI
+- `OAUTH_CLIENT_SECRET`: OIDC client secret
 - `OPENID_PROVIDER_URL`: OIDC discovery document URL
-- `OAUTH_PROVIDER_NAME`: SSO button label (default: Keycloak)
+- `OAUTH_PROVIDER_NAME`: SSO button label (default: OIDC)
 - `OPENID_REDIRECT_URI`: OAuth callback URL
 
-For detailed setup instructions, see: [Keycloak Integration](https://docs.openwebui.com/features/sso/keycloak)
+For detailed setup instructions, see: [OIDC Integration](https://docs.openwebui.com/features/sso/)
 
 ## 🔗 Extension Combinations
 
@@ -232,16 +232,16 @@ groups:
   auth:
     description: "Authentication services"
     extensions:
-      - keycloak
+      - oidc
 
 # Valid combinations
 combinations:
-  - name: "keycloak+openai-edge-tts"
-    extensions: ["keycloak", "openai-edge-tts"]
+  - name: "oidc+openai-edge-tts"
+    extensions: ["oidc", "openai-edge-tts"]
     description: "Authentication with OpenAI Edge TTS"
   
-  - name: "keycloak+openedai-speech"
-    extensions: ["keycloak", "openedai-speech"]
+  - name: "oidc+openedai-speech"
+    extensions: ["oidc", "openedai-speech"]
     description: "Authentication with OpenedAI Speech"
 ```
 
@@ -280,8 +280,8 @@ groups:
 
 # Add new combinations
 combinations:
-  - name: "keycloak+prometheus"
-    extensions: ["keycloak", "prometheus"]
+  - name: "oidc+prometheus"
+    extensions: ["oidc", "prometheus"]
     description: "Authentication with monitoring"
 ```
 

@@ -25,6 +25,11 @@ Enterprise-grade identity and access management solution. Provides authenticatio
 
 For Open WebUI integration, see: [Keycloak Integration](https://docs.openwebui.com/features/sso/keycloak)
 
+#### [🔐 Kanidm](src/identity-management/kanidm)
+
+Modern identity and access management server with comprehensive authentication capabilities. Provides secure identity management with modular configuration system and multiple deployment modes.
+[Learn more about Kanidm configuration](src/identity-management/kanidm/README.md).
+
 ## 🌐 Services
 
 ### [🌐 Open WebUI](src/open-webui)
@@ -56,7 +61,8 @@ Each service directory contains:
 │   │   ├── letsencrypt-manager/ # Let's Encrypt SSL certificate management
 │   │   └── step-ca-manager/     # Local CA and trusted certificates
 │   ├── identity-management/ # Identity and access management
-│   │   └── keycloak/        # Keycloak identity provider
+│   │   ├── keycloak/        # Keycloak identity provider
+│   │   └── kanidm/          # Kanidm identity and access management
 │   ├── open-webui/          # Main Open WebUI service configs
 │   └── text-to-speech/      # TTS service configurations
 │       ├── openai-edge-tts/ # OpenAI Edge TTS setup

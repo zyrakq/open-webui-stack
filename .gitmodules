@@ -7,3 +7,6 @@
 [submodule "src/identity-management/keycloak"]
 	path = src/identity-management/keycloak
 	url = https://github.com/zyrakq/keycloak-stack.git
+[submodule "src/identity-management/kanidm"]
+	path = src/identity-management/kanidm
+	url = https://github.com/zyrakq/kanidm-stack.git
