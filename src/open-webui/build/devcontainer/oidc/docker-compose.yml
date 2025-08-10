@@ -20,6 +20,7 @@ services:
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
       OPENID_REDIRECT_URI: ${OPENID_REDIRECT_URI}
+      OAUTH_GROUPS_CLAIM: ${OAUTH_GROUPS_CLAIM}
     networks:
       - open-webui-network
       - open-webui-workspace-network

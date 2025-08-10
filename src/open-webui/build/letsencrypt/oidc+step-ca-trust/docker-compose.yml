@@ -25,10 +25,10 @@ services:
       OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
       OPENID_REDIRECT_URI: ${OPENID_REDIRECT_URI}
       OAUTH_GROUPS_CLAIM: ${OAUTH_GROUPS_CLAIM}
-      AUDIO_TTS_ENGINE: ${AUDIO_TTS_ENGINE} # Specify Text-to-Speech engine
-      AUDIO_TTS_OPENAI_API_BASE_URL: ${AUDIO_TTS_OPENAI_API_BASE_URL} # API URL for OpenedAI Speech
-      AUDIO_TTS_API_KEY: ${AUDIO_TTS_API_KEY} # API key (not required, but must be filled)
-      AUDIO_TTS_VOICE: ${AUDIO_TTS_VOICE} # Specify default voice
+      STEP_CA_TRUST: ${STEP_CA_TRUST:-true}
+      STEP_CA_TRUST_RESTART: ${STEP_CA_TRUST_RESTART:-true}
+      REQUESTS_CA_BUNDLE: ${REQUESTS_CA_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}
+      SSL_CERT_FILE: ${SSL_CERT_FILE:-/etc/ssl/certs/ca-certificates.crt}
     networks:
       - open-webui-network
       - letsencrypt-network

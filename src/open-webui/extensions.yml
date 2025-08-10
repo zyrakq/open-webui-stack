@@ -16,6 +16,11 @@ groups:
     extensions:
       - oidc
 
+  step-ca:
+    description: "smallstep-ca"
+    extensions:
+      - step-ca-trust
+
 # Global conflicts (beyond groups)
 # Extensions listed here cannot be used together regardless of groups
 conflicts:
@@ -33,6 +38,18 @@ combinations:
   - name: "oidc+openedai-speech"
     extensions: ["oidc", "openedai-speech"]  
     description: "Authentication with OpenedAI Speech"
+
+  - name: "oidc+openai-edge-tts+step-ca-trust"
+    extensions: ["oidc", "openai-edge-tts", "step-ca-trust"]
+    description: "-"
+  
+  - name: "oidc+openedai-speech+step-ca-trust"
+    extensions: ["oidc", "openedai-speech", "step-ca-trust"]  
+    description: "-"
+
+  - name: "oidc+step-ca-trust"
+    extensions: ["oidc","step-ca-trust"]
+    description: "-"
 
 # Naming strategy for combination directories
 naming:

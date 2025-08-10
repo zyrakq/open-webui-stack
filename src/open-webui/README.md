@@ -37,20 +37,29 @@ src/open-webui/
 │   │   ├── oidc/                           # DevContainer + OIDC
 │   │   ├── openai-edge-tts/                # DevContainer + OpenAI Edge TTS
 │   │   ├── openedai-speech/                # DevContainer + OpenedAI Speech
+│   │   ├── step-ca-trust/                  # DevContainer + Step CA trust
+│   │   ├── oidc+step-ca-trust/             # DevContainer + OIDC + Step CA trust
 │   │   ├── oidc+openai-edge-tts/           # DevContainer + OIDC + OpenAI Edge TTS
-│   │   └── oidc+openedai-speech/           # DevContainer + OIDC + OpenedAI Speech
+│   │   ├── oidc+openedai-speech/           # DevContainer + OIDC + OpenedAI Speech
+│   │   ├── oidc+openai-edge-tts+step-ca-trust/  # DevContainer + OIDC + OpenAI Edge TTS + Step CA trust
+│   │   └── oidc+openedai-speech+step-ca-trust/  # DevContainer + OIDC + OpenedAI Speech + Step CA trust
 │   ├── letsencrypt/
 │   │   ├── base/                           # Let's Encrypt + base
 │   │   ├── oidc/                           # Let's Encrypt + OIDC
 │   │   ├── openai-edge-tts/                # Let's Encrypt + OpenAI Edge TTS
 │   │   ├── openedai-speech/                # Let's Encrypt + OpenedAI Speech
+│   │   ├── step-ca-trust/                  # Let's Encrypt + Step CA trust
+│   │   ├── oidc+step-ca-trust/             # Let's Encrypt + OIDC + Step CA trust
 │   │   ├── oidc+openai-edge-tts/           # Let's Encrypt + OIDC + OpenAI Edge TTS
-│   │   └── oidc+openedai-speech/           # Let's Encrypt + OIDC + OpenedAI Speech
+│   │   ├── oidc+openedai-speech/           # Let's Encrypt + OIDC + OpenedAI Speech
+│   │   ├── oidc+openai-edge-tts+step-ca-trust/  # Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
+│   │   └── oidc+openedai-speech+step-ca-trust/  # Let's Encrypt + OIDC + OpenedAI Speech + Step CA trust
 │   └── step-ca/
 │       ├── base/                           # Step CA + base
 │       ├── oidc/                           # Step CA + OIDC
 │       ├── openai-edge-tts/                # Step CA + OpenAI Edge TTS
 │       ├── openedai-speech/                # Step CA + OpenedAI Speech
+│       ├── oidc+step-ca-trust/             # Step CA + OIDC + Step CA trust
 │       ├── oidc+openai-edge-tts/           # Step CA + OIDC + OpenAI Edge TTS
 │       └── oidc+openedai-speech/           # Step CA + OIDC + OpenedAI Speech
 ├── build.sh                      # Build script
@@ -85,6 +94,15 @@ cd build/letsencrypt/openedai-speech/
 
 # For production with Let's Encrypt + OIDC + OpenAI Edge TTS
 cd build/letsencrypt/oidc+openai-edge-tts/
+
+# For production with Step CA + OIDC + Step CA trust
+cd build/step-ca/oidc+step-ca-trust/
+
+# For production with Step CA + Step CA trust
+cd build/step-ca/step-ca-trust/
+
+# For production with Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
+cd build/letsencrypt/oidc+openai-edge-tts+step-ca-trust/
 ```
 
 ### 3. Configure Environment
@@ -104,6 +122,26 @@ Start the services:
 docker-compose up -d
 ```
 
+## 🗄️ Database Management
+
+### Copying and Updating Database
+
+For manual operations like linking existing accounts with SSO accounts, you can copy the database from the container, modify it, and copy it back:
+
+```bash
+# Copy database from container to host
+docker cp open-webui:/app/backend/data/webui.db .
+
+# After making changes to the database file
+docker cp webui.db open-webui:/app/backend/data/webui.db
+```
+
+**Important**: After updating the database, restart the container for changes to take effect:
+
+```bash
+docker-compose restart open-webui
+```
+
 ## 🔧 Available Configurations
 
 ### Environments
@@ -117,6 +155,7 @@ docker-compose up -d
 - **oidc**: OAuth2/OIDC authentication integration
 - **openai-edge-tts**: OpenAI Edge TTS integration
 - **openedai-speech**: OpenedAI Speech integration
+- **step-ca-trust**: Step CA certificate trust integration
 
 ### Generated Combinations
 
@@ -128,10 +167,12 @@ Each environment can be combined with any single extension:
 - `devcontainer/oidc` - Development with OIDC authentication
 - `devcontainer/openai-edge-tts` - Development with OpenAI Edge TTS
 - `devcontainer/openedai-speech` - Development with OpenedAI Speech
+- `devcontainer/step-ca-trust` - Development with Step CA certificate trust
 - `letsencrypt/base` - Production with Let's Encrypt
 - `letsencrypt/oidc` - Production with Let's Encrypt + OIDC authentication
 - `letsencrypt/openai-edge-tts` - Production with Let's Encrypt + OpenAI Edge TTS
 - `letsencrypt/openedai-speech` - Production with Let's Encrypt + OpenedAI Speech
+- `letsencrypt/step-ca-trust` - Production with Let's Encrypt + Step CA certificate trust
 - `step-ca/base` - Production with Step CA
 - `step-ca/oidc` - Production with Step CA + OIDC authentication
 - `step-ca/openai-edge-tts` - Production with Step CA + OpenAI Edge TTS
@@ -141,14 +182,21 @@ Each environment can be combined with any single extension:
 
 When [`extensions.yml`](extensions.yml) is present, additional combinations are generated:
 
+- `devcontainer/oidc+step-ca-trust` - Development with OIDC + Step CA trust
 - `devcontainer/oidc+openai-edge-tts` - Development with OIDC + OpenAI Edge TTS
 - `devcontainer/oidc+openedai-speech` - Development with OIDC + OpenedAI Speech
+- `devcontainer/oidc+openai-edge-tts+step-ca-trust` - Development with OIDC + OpenAI Edge TTS + Step CA trust
+- `devcontainer/oidc+openedai-speech+step-ca-trust` - Development with OIDC + OpenedAI Speech + Step CA trust
+- `letsencrypt/oidc+step-ca-trust` - Production with Let's Encrypt + OIDC + Step CA trust
 - `letsencrypt/oidc+openai-edge-tts` - Production with Let's Encrypt + OIDC + OpenAI Edge TTS
 - `letsencrypt/oidc+openedai-speech` - Production with Let's Encrypt + OIDC + OpenedAI Speech
+- `letsencrypt/oidc+openai-edge-tts+step-ca-trust` - Production with Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
+- `letsencrypt/oidc+openedai-speech+step-ca-trust` - Production with Let's Encrypt + OIDC + OpenedAI Speech + Step CA trust
+- `step-ca/oidc+step-ca-trust` - Production with Step CA + OIDC + Step CA trust
 - `step-ca/oidc+openai-edge-tts` - Production with Step CA + OIDC + OpenAI Edge TTS
 - `step-ca/oidc+openedai-speech` - Production with Step CA + OIDC + OpenedAI Speech
 
-**Note**: TTS extensions (openai-edge-tts and openedai-speech) are mutually exclusive and cannot be combined together.
+**Note**: TTS extensions (openai-edge-tts and openedai-speech) are mutually exclusive and cannot be combined together. The step-ca-trust extension can be combined with any other extensions to add Step CA certificate trust to containers.
 
 ## 🔧 Environment Variables
 
@@ -205,6 +253,15 @@ When [`extensions.yml`](extensions.yml) is present, additional combinations are 
 
 For detailed setup instructions, see: [OIDC Integration](https://docs.openwebui.com/features/sso/)
 
+### Step CA Trust Configuration
+
+- `STEP_CA_TRUST`: Enable Step CA certificate trust (default: true)
+- `STEP_CA_TRUST_RESTART`: Restart container when trust configuration changes (default: true)
+- `REQUESTS_CA_BUNDLE`: Path to CA bundle for Python requests library (default: /etc/ssl/certs/ca-certificates.crt)
+- `SSL_CERT_FILE`: Path to SSL certificate file for SSL verification (default: /etc/ssl/certs/ca-certificates.crt)
+
+The step-ca-trust extension automatically configures containers to trust certificates issued by Step CA, enabling secure communication with Step CA-protected services. The `REQUESTS_CA_BUNDLE` and `SSL_CERT_FILE` environment variables ensure that Python applications and SSL libraries use the correct certificate bundle that includes Step CA certificates.
+
 ## 🔗 Extension Combinations
 
 ### Configuration File
@@ -234,6 +291,11 @@ groups:
     extensions:
       - oidc
 
+  step-ca:
+    description: "Step CA certificate trust"
+    extensions:
+      - step-ca-trust
+
 # Valid combinations
 combinations:
   - name: "oidc+openai-edge-tts"
@@ -243,6 +305,18 @@ combinations:
   - name: "oidc+openedai-speech"
     extensions: ["oidc", "openedai-speech"]
     description: "Authentication with OpenedAI Speech"
+
+  - name: "oidc+step-ca-trust"
+    extensions: ["oidc", "step-ca-trust"]
+    description: "Authentication with Step CA trust"
+
+  - name: "oidc+openai-edge-tts+step-ca-trust"
+    extensions: ["oidc", "openai-edge-tts", "step-ca-trust"]
+    description: "Authentication with OpenAI Edge TTS and Step CA trust"
+  
+  - name: "oidc+openedai-speech+step-ca-trust"
+    extensions: ["oidc", "openedai-speech", "step-ca-trust"]
+    description: "Authentication with OpenedAI Speech and Step CA trust"
 ```
 
 ### Backward Compatibility
@@ -283,6 +357,10 @@ combinations:
   - name: "oidc+prometheus"
     extensions: ["oidc", "prometheus"]
     description: "Authentication with monitoring"
+  
+  - name: "oidc+prometheus+step-ca-trust"
+    extensions: ["oidc", "prometheus", "step-ca-trust"]
+    description: "Authentication with monitoring and Step CA trust"
 ```
 
 ### File Naming Convention
