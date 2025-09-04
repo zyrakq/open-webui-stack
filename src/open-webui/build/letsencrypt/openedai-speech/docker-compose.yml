@@ -2,9 +2,14 @@ services:
   open-webui:
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
     container_name: open-webui
-    restart: always
+    restart: unless-stopped
     volumes:
       - open-webui:/app/backend/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: 3
     environment:
       OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL}
       OPENAI_API_KEY: ${OPENAI_API_KEY}

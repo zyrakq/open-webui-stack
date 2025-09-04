@@ -1,14 +1,25 @@
 services:
   openedai-speech:
-    build: .
     container_name: openedai-speech
-    environment:
-      - PRELOAD_MODEL=ru_RU-ruslan-medium
+    image: ghcr.io/matatonic/openedai-speech-min
     restart: unless-stopped
+    environment:
+      PRELOAD_MODEL: ${PRELOAD_MODEL:-"ru_RU-ruslan-medium"}
     volumes:
       - openedai-speech-voices:/app/voices
+    configs:
+      - source: voice-config
+        target: /app/config/voice_to_speaker.yaml
     networks:
       - open-webui-network
+
+configs:
+  voice-config:
+    content: |
+      tts-1:
+        ruslan:
+          model: ${PRELOAD_MODEL_PATH:-"voices/ru_RU-ruslan-medium.onnx"}
+          speaker:
 
 volumes:
   openedai-speech-voices:

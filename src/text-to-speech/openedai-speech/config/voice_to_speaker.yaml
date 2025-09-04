@@ -1,4 +1,0 @@
-tts-1:
-  ruslan:
-    model: voices/ru_RU-ruslan-medium.onnx
-    speaker: # default speaker
