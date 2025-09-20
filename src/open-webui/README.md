@@ -2,201 +2,55 @@
 
 A modular Docker Compose configuration system for Open WebUI with support for multiple environments and extensions.
 
-## 🏗️ Project Structure
-
-```sh
-src/open-webui/
-├── components/                              # Source compose components
-│   ├── base/                               # Base components
-│   │   ├── docker-compose.yml              # Main Open WebUI service
-│   │   └── .env.example                    # Base environment variables
-│   ├── environments/                       # Environment components
-│   │   ├── devcontainer/
-│   │   │   ├── docker-compose.yml          # DevContainer environment
-│   │   │   └── .env.example                # DevContainer variables
-│   │   ├── letsencrypt/
-│   │   │   ├── docker-compose.yml          # Let's Encrypt SSL
-│   │   │   └── .env.example                # Let's Encrypt variables
-│   │   └── step-ca/
-│   │       ├── docker-compose.yml          # Step CA SSL
-│   │       └── .env.example                # Step CA variables
-│   ├── extensions/                         # Extension components
-│   │   ├── oidc/
-│   │   │   ├── docker-compose.yml          # OIDC authentication
-│   │   │   └── .env.example                # OIDC variables
-│   │   ├── openai-edge-tts/
-│   │   │   ├── docker-compose.yml          # OpenAI Edge TTS
-│   │   │   └── .env.example                # OpenAI Edge TTS variables
-│   │   └── openedai-speech/
-│   │       ├── docker-compose.yml          # OpenedAI Speech
-│   │       └── .env.example                # OpenedAI Speech variables
-├── extensions.yml                          # Extension compatibility configuration
-├── build/                        # Generated configurations (auto-generated)
-│   ├── devcontainer/
-│   │   ├── base/                           # DevContainer + base
-│   │   ├── oidc/                           # DevContainer + OIDC
-│   │   ├── openai-edge-tts/                # DevContainer + OpenAI Edge TTS
-│   │   ├── openedai-speech/                # DevContainer + OpenedAI Speech
-│   │   ├── step-ca-trust/                  # DevContainer + Step CA trust
-│   │   ├── oidc+step-ca-trust/             # DevContainer + OIDC + Step CA trust
-│   │   ├── oidc+openai-edge-tts/           # DevContainer + OIDC + OpenAI Edge TTS
-│   │   ├── oidc+openedai-speech/           # DevContainer + OIDC + OpenedAI Speech
-│   │   ├── oidc+openai-edge-tts+step-ca-trust/  # DevContainer + OIDC + OpenAI Edge TTS + Step CA trust
-│   │   └── oidc+openedai-speech+step-ca-trust/  # DevContainer + OIDC + OpenedAI Speech + Step CA trust
-│   ├── letsencrypt/
-│   │   ├── base/                           # Let's Encrypt + base
-│   │   ├── oidc/                           # Let's Encrypt + OIDC
-│   │   ├── openai-edge-tts/                # Let's Encrypt + OpenAI Edge TTS
-│   │   ├── openedai-speech/                # Let's Encrypt + OpenedAI Speech
-│   │   ├── step-ca-trust/                  # Let's Encrypt + Step CA trust
-│   │   ├── oidc+step-ca-trust/             # Let's Encrypt + OIDC + Step CA trust
-│   │   ├── oidc+openai-edge-tts/           # Let's Encrypt + OIDC + OpenAI Edge TTS
-│   │   ├── oidc+openedai-speech/           # Let's Encrypt + OIDC + OpenedAI Speech
-│   │   ├── oidc+openai-edge-tts+step-ca-trust/  # Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
-│   │   └── oidc+openedai-speech+step-ca-trust/  # Let's Encrypt + OIDC + OpenedAI Speech + Step CA trust
-│   └── step-ca/
-│       ├── base/                           # Step CA + base
-│       ├── oidc/                           # Step CA + OIDC
-│       ├── openai-edge-tts/                # Step CA + OpenAI Edge TTS
-│       ├── openedai-speech/                # Step CA + OpenedAI Speech
-│       ├── oidc+step-ca-trust/             # Step CA + OIDC + Step CA trust
-│       ├── oidc+openai-edge-tts/           # Step CA + OIDC + OpenAI Edge TTS
-│       └── oidc+openedai-speech/           # Step CA + OIDC + OpenedAI Speech
-├── build.sh                      # Build script
-└── README.md                     # This file
-```
-
 ## 🚀 Quick Start
 
 ### 1. Build Configurations
 
-Run the build script to generate all possible combinations:
+Generate all configurations using [stackbuilder](https://github.com/zyrakq/stackbuilder):
 
 ```bash
-./build.sh
+sb build
 ```
 
-This will create all combinations in the `build/` directory.
+This creates ready-to-use Docker Compose configurations in the `build/` directory.
 
-### 2. Choose Your Configuration
+### 2. Deploy
 
-Navigate to the desired configuration directory:
-
-```bash
-# For development with DevContainer
-cd build/devcontainer/base/
-
-# For production with Let's Encrypt SSL
-cd build/letsencrypt/base/
-
-# For production with Let's Encrypt + OpenedAI Speech
-cd build/letsencrypt/openedai-speech/
-
-# For production with Let's Encrypt + OIDC + OpenAI Edge TTS
-cd build/letsencrypt/oidc+openai-edge-tts/
-
-# For production with Step CA + OIDC + Step CA trust
-cd build/step-ca/oidc+step-ca-trust/
-
-# For production with Step CA + Step CA trust
-cd build/step-ca/step-ca-trust/
-
-# For production with Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
-cd build/letsencrypt/oidc+openai-edge-tts+step-ca-trust/
-```
-
-### 3. Configure Environment
-
-Copy and edit the environment file:
+Navigate to your chosen configuration and deploy:
 
 ```bash
+# Example: deploy with Let's Encrypt SSL and OIDC
+cd build/letsencrypt/oidc/
 cp .env.example .env
 # Edit .env with your values
+docker compose up --build -d
 ```
 
-### 4. Deploy
+## 📁 Project Structure
 
-Start the services:
-
-```bash
-docker-compose up -d
-```
-
-## 🗄️ Database Management
-
-### Copying and Updating Database
-
-For manual operations like linking existing accounts with SSO accounts, you can copy the database from the container, modify it, and copy it back:
-
-```bash
-# Copy database from container to host
-docker cp open-webui:/app/backend/data/webui.db .
-
-# After making changes to the database file
-docker cp webui.db open-webui:/app/backend/data/webui.db
-```
-
-**Important**: After updating the database, restart the container for changes to take effect:
-
-```bash
-docker-compose restart open-webui
-```
+- **`components/`** - Source Docker Compose components
+  - `base/` - Core Open WebUI service
+  - `environments/` - Environment configurations (devcontainer, letsencrypt, step-ca)
+  - `extensions/` - Extension components (oidc, tts services, step-ca-trust)
+- **`build/`** - Generated configurations (created by `sb build`)
+- **`stackbuilder.toml`** - Build configuration for stackbuilder
 
 ## 🔧 Available Configurations
 
 ### Environments
 
-- **devcontainer**: Development environment with workspace network
-- **letsencrypt**: Production with Let's Encrypt SSL certificates
-- **step-ca**: Production with Step CA SSL certificates
+- **devcontainer** - Development environment with workspace network
+- **letsencrypt** - Production with Let's Encrypt SSL certificates
+- **step-ca** - Production with Step CA SSL certificates
 
 ### Extensions
 
-- **oidc**: OAuth2/OIDC authentication integration
-- **openai-edge-tts**: OpenAI Edge TTS integration
-- **openedai-speech**: OpenedAI Speech integration
-- **step-ca-trust**: Step CA certificate trust integration
+- **oidc** - OAuth2/OIDC authentication integration
+- **openai-edge-tts** - OpenAI Edge TTS integration
+- **openedai-speech** - OpenedAI Speech integration
+- **step-ca-trust** - Step CA certificate trust integration
 
-### Generated Combinations
-
-#### Single Extensions
-
-Each environment can be combined with any single extension:
-
-- `devcontainer/base` - Basic development setup
-- `devcontainer/oidc` - Development with OIDC authentication
-- `devcontainer/openai-edge-tts` - Development with OpenAI Edge TTS
-- `devcontainer/openedai-speech` - Development with OpenedAI Speech
-- `devcontainer/step-ca-trust` - Development with Step CA certificate trust
-- `letsencrypt/base` - Production with Let's Encrypt
-- `letsencrypt/oidc` - Production with Let's Encrypt + OIDC authentication
-- `letsencrypt/openai-edge-tts` - Production with Let's Encrypt + OpenAI Edge TTS
-- `letsencrypt/openedai-speech` - Production with Let's Encrypt + OpenedAI Speech
-- `letsencrypt/step-ca-trust` - Production with Let's Encrypt + Step CA certificate trust
-- `step-ca/base` - Production with Step CA
-- `step-ca/oidc` - Production with Step CA + OIDC authentication
-- `step-ca/openai-edge-tts` - Production with Step CA + OpenAI Edge TTS
-- `step-ca/openedai-speech` - Production with Step CA + OpenedAI Speech
-
-#### Extension Combinations
-
-When [`extensions.yml`](extensions.yml) is present, additional combinations are generated:
-
-- `devcontainer/oidc+step-ca-trust` - Development with OIDC + Step CA trust
-- `devcontainer/oidc+openai-edge-tts` - Development with OIDC + OpenAI Edge TTS
-- `devcontainer/oidc+openedai-speech` - Development with OIDC + OpenedAI Speech
-- `devcontainer/oidc+openai-edge-tts+step-ca-trust` - Development with OIDC + OpenAI Edge TTS + Step CA trust
-- `devcontainer/oidc+openedai-speech+step-ca-trust` - Development with OIDC + OpenedAI Speech + Step CA trust
-- `letsencrypt/oidc+step-ca-trust` - Production with Let's Encrypt + OIDC + Step CA trust
-- `letsencrypt/oidc+openai-edge-tts` - Production with Let's Encrypt + OIDC + OpenAI Edge TTS
-- `letsencrypt/oidc+openedai-speech` - Production with Let's Encrypt + OIDC + OpenedAI Speech
-- `letsencrypt/oidc+openai-edge-tts+step-ca-trust` - Production with Let's Encrypt + OIDC + OpenAI Edge TTS + Step CA trust
-- `letsencrypt/oidc+openedai-speech+step-ca-trust` - Production with Let's Encrypt + OIDC + OpenedAI Speech + Step CA trust
-- `step-ca/oidc+step-ca-trust` - Production with Step CA + OIDC + Step CA trust
-- `step-ca/oidc+openai-edge-tts` - Production with Step CA + OIDC + OpenAI Edge TTS
-- `step-ca/oidc+openedai-speech` - Production with Step CA + OIDC + OpenedAI Speech
-
-**Note**: TTS extensions (openai-edge-tts and openedai-speech) are mutually exclusive and cannot be combined together. The step-ca-trust extension can be combined with any other extensions to add Step CA certificate trust to containers.
+Generated combinations are available in the `build/` directory after running `sb build`.
 
 ## 🔧 Environment Variables
 
@@ -262,129 +116,37 @@ For detailed setup instructions, see: [OIDC Integration](https://docs.openwebui.
 
 The step-ca-trust extension automatically configures containers to trust certificates issued by Step CA, enabling secure communication with Step CA-protected services. The `REQUESTS_CA_BUNDLE` and `SSL_CERT_FILE` environment variables ensure that Python applications and SSL libraries use the correct certificate bundle that includes Step CA certificates.
 
-## 🔗 Extension Combinations
+## 🗄️ Database Management
 
-### Configuration File
+For manual database operations:
 
-Extension combinations are configured via [`extensions.yml`](extensions.yml). This file defines:
+```bash
+# Copy database from container to host
+docker cp open-webui:/app/backend/data/webui.db .
 
-- **Groups**: Extensions that conflict with each other (e.g., TTS services)
-- **Combinations**: Valid extension combinations to generate
-- **Compatibility**: Rules for which extensions can work together
-
-### Example Configuration
-
-```yaml
-# Extension compatibility configuration
-version: "1.0"
-
-# Extension groups - extensions in same group conflict with each other
-groups:
-  tts:
-    description: "Text-to-Speech services (mutually exclusive)"
-    extensions:
-      - openai-edge-tts
-      - openedai-speech
-  
-  auth:
-    description: "Authentication services"
-    extensions:
-      - oidc
-
-  step-ca:
-    description: "Step CA certificate trust"
-    extensions:
-      - step-ca-trust
-
-# Valid combinations
-combinations:
-  - name: "oidc+openai-edge-tts"
-    extensions: ["oidc", "openai-edge-tts"]
-    description: "Authentication with OpenAI Edge TTS"
-  
-  - name: "oidc+openedai-speech"
-    extensions: ["oidc", "openedai-speech"]
-    description: "Authentication with OpenedAI Speech"
-
-  - name: "oidc+step-ca-trust"
-    extensions: ["oidc", "step-ca-trust"]
-    description: "Authentication with Step CA trust"
-
-  - name: "oidc+openai-edge-tts+step-ca-trust"
-    extensions: ["oidc", "openai-edge-tts", "step-ca-trust"]
-    description: "Authentication with OpenAI Edge TTS and Step CA trust"
-  
-  - name: "oidc+openedai-speech+step-ca-trust"
-    extensions: ["oidc", "openedai-speech", "step-ca-trust"]
-    description: "Authentication with OpenedAI Speech and Step CA trust"
+# After making changes to the database file
+docker cp webui.db open-webui:/app/backend/data/webui.db
+docker compose restart open-webui
 ```
-
-### Backward Compatibility
-
-- **Without `extensions.yml`**: Only single extensions are generated (legacy behavior)
-- **With `extensions.yml`**: Both single extensions and combinations are generated
-- **Existing configurations**: Remain unchanged and fully compatible
 
 ## 🛠️ Development
 
 ### Adding New Components
 
-1. **New Environment**: Create directory in `components/environments/` with `docker-compose.yml` and optional `.env.example` file
-2. **New Extension**: Create directory in `components/extensions/` with `docker-compose.yml` and optional `.env.example` file
-3. **Update Combinations**: Add new extension to [`extensions.yml`](extensions.yml) if it should be part of combinations
-4. **Rebuild**: Run `./build.sh` to generate new combinations
+1. **New Environment**: Create directory in `components/environments/` with `docker-compose.yml` and optional `.env.example`
+2. **New Extension**: Create directory in `components/extensions/` with `docker-compose.yml` and optional `.env.example`
+3. **Update Configuration**: Modify [`stackbuilder.toml`](stackbuilder.toml) to include new components
+4. **Rebuild**: Run `sb build` to regenerate configurations
 
-### Adding Extension Combinations
+### Modifying Components
 
-1. **Edit Configuration**: Modify [`extensions.yml`](extensions.yml)
-2. **Define Groups**: Add extensions to appropriate groups if they conflict
-3. **Add Combinations**: Specify valid extension combinations
-4. **Rebuild**: Run `./build.sh` to generate new combinations
-
-Example of adding a new extension to combinations:
-
-```yaml
-# Add to existing group or create new group
-groups:
-  monitoring:
-    description: "Monitoring services"
-    extensions:
-      - prometheus
-      - grafana
-
-# Add new combinations
-combinations:
-  - name: "oidc+prometheus"
-    extensions: ["oidc", "prometheus"]
-    description: "Authentication with monitoring"
-  
-  - name: "oidc+prometheus+step-ca-trust"
-    extensions: ["oidc", "prometheus", "step-ca-trust"]
-    description: "Authentication with monitoring and Step CA trust"
-```
-
-### File Naming Convention
-
-All component files follow the standard Docker Compose naming convention (`docker-compose.yml`) for:
-
-- **VS Code compatibility**: Full support for Docker Compose language features and IntelliSense
-- **IDE integration**: Proper syntax highlighting and validation in all major editors
-- **Tool compatibility**: Works with Docker Compose plugins and extensions
-- **Standard compliance**: Follows official Docker Compose file naming patterns
-
-### Modifying Existing Components
-
-1. Edit the component files in `components/`
-2. Run `./build.sh` to regenerate configurations
+1. Edit files in `components/`
+2. Run `sb build` to regenerate all configurations
 3. The `build/` directory will be completely recreated
 
 ## 📝 Notes
 
-- The `build/` directory is automatically generated and should not be edited manually
-- Environment variables in generated files use `$VARIABLE_NAME` format for proper interpolation
-- Each generated configuration includes a complete `docker-compose.yml` and `.env.example`
-- Missing `.env.*` files for components are handled gracefully by the build script
-- Extension combinations are only generated when [`extensions.yml`](extensions.yml) exists
-- The build script maintains full backward compatibility - existing workflows continue to work unchanged
-- Extension conflicts are automatically validated during the build process
+- The `build/` directory is automatically generated - do not edit manually
 - User `.env` files are preserved during rebuilds
+- All configurations are built from [`stackbuilder.toml`](stackbuilder.toml) specification
+- Extension conflicts and combinations are managed via stackbuilder configuration

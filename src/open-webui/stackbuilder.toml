@@ -1,0 +1,32 @@
+[paths]
+environments_path = "./environments"
+extensions_dirs = ["extensions/tts", "extensions"]
+
+[build]
+extensions = ["oidc", "openai-edge-tts", "openedai-speech", "step-ca-trust"]
+
+[build.combos]
+"oidc+openai-edge-tts" = ["oidc", "openai-edge-tts"]
+"oidc+openedai-speech" = ["oidc", "openedai-speech"]
+"oidc-trust" = ["oidc", "step-ca-trust"]
+"oidc-trust+openai-edge-tts" = ["oidc", "openai-edge-tts", "step-ca-trust"]
+"oidc-trust+openedai-speech" = ["oidc", "openedai-speech", "step-ca-trust"]
+
+[build.environments]
+available = ["devcontainer", "letsencrypt", "step-ca"]
+
+[build.environments.devcontainer]
+extensions = ["oidc", "openai-edge-tts", "openedai-speech"]
+combos = ["oidc+openai-edge-tts", "oidc+openedai-speech"]
+
+[build.environments.letsencrypt]
+extensions = ["oidc", "openai-edge-tts", "openedai-speech"]
+combos = ["oidc+openai-edge-tts", "oidc+openedai-speech"]
+
+[build.environments.step-ca]
+extensions = ["openai-edge-tts", "openedai-speech"]
+combos = [
+    "oidc-trust",
+    "oidc-trust+openai-edge-tts",
+    "oidc-trust+openedai-speech",
+]
