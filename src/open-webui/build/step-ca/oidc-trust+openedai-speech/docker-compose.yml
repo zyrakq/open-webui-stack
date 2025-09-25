@@ -1,7 +1,7 @@
 services:
   open-webui:
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-main}
-    container_name: open-webui
+    image: ${WEBUI_DOCKER_IMAGE:-ghcr.io/open-webui/open-webui:main}
+    container_name: ${PROJECT_NAME:-open-webui}
     restart: unless-stopped
     volumes:
       - open-webui:/app/backend/data
@@ -43,9 +43,9 @@ services:
       - step-ca-network
 volumes:
   open-webui:
-    name: open-webui
+    name: ${PROJECT_NAME:-open-webui}
 networks:
   open-webui-network:
-    name: open-webui-network
+    name: ${PROJECT_NAME:-open-webui}-network
   step-ca-network:
     external: true

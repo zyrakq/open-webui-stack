@@ -33,6 +33,9 @@ docker compose up --build -d
   - `environments/` - Environment configurations (devcontainer, letsencrypt, step-ca)
   - `extensions/` - Extension components (oidc, tts services, step-ca-trust)
 - **`build/`** - Generated configurations (created by `sb build`)
+- **`images/`** - Custom Docker images for building forks
+  - `raux/` - Custom image for Raux fork
+  - `vela-chat/` - Custom image for Vela Chat fork
 - **`stackbuilder.toml`** - Build configuration for stackbuilder
 
 ## 🔧 Available Configurations
@@ -57,10 +60,11 @@ Generated combinations are available in the `build/` directory after running `sb
 ### Base Configuration
 
 - `COMPOSE_PROJECT_NAME`: Project name for Docker Compose
+- `PROJECT_NAME`: Project name for containers, volumes, and networks (allows multiple deployments)
 - `OPENAI_API_BASE_URL`: OpenAI API base URL
 - `OPENAI_API_KEY`: OpenAI API key
 - `WEBUI_SECRET_KEY`: Secret key for WebUI
-- `WEBUI_DOCKER_TAG`: Docker image tag (default: main)
+- `WEBUI_DOCKER_IMAGE`: Docker image for Open WebUI (default: ghcr.io/open-webui/open-webui:main)
 - `DEFAULT_LOCALE`: Default locale for the interface (default: en)
 - `ENABLE_EVALUATION_ARENA_MODELS`: Enable evaluation arena models (default: False)
 - `ENABLE_OLLAMA_API`: Enable Ollama API integration (default: False)
