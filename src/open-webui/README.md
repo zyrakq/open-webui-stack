@@ -19,6 +19,12 @@ This creates ready-to-use Docker Compose configurations in the `build/` director
 Navigate to your chosen configuration and deploy:
 
 ```bash
+# Example: simple deployment with port forwarding
+cd build/forwarding/base/
+cp .env.example .env
+# Edit .env with your values
+docker compose up --build -d
+
 # Example: deploy with Let's Encrypt SSL and OIDC
 cd build/letsencrypt/oidc/
 cp .env.example .env
@@ -43,6 +49,7 @@ docker compose up --build -d
 ### Environments
 
 - **devcontainer** - Development environment with workspace network
+- **forwarding** - Simple deployment with direct port forwarding
 - **letsencrypt** - Production with Let's Encrypt SSL certificates
 - **step-ca** - Production with Step CA SSL certificates
 

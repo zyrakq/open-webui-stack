@@ -1,0 +1,4 @@
+services:
+  open-webui:
+    ports:
+      - 8080:8080

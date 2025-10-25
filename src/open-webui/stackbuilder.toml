@@ -13,9 +13,13 @@ extensions = ["oidc", "openai-edge-tts", "openedai-speech", "step-ca-trust"]
 "oidc-trust+openedai-speech" = ["oidc", "openedai-speech", "step-ca-trust"]
 
 [build.environments]
-available = ["devcontainer", "letsencrypt", "step-ca"]
+available = ["devcontainer", "forwarding", "letsencrypt", "step-ca"]
 
 [build.environments.devcontainer]
+extensions = ["oidc", "openai-edge-tts", "openedai-speech"]
+combos = ["oidc+openai-edge-tts", "oidc+openedai-speech"]
+
+[build.environments.forwarding]
 extensions = ["oidc", "openai-edge-tts", "openedai-speech"]
 combos = ["oidc+openai-edge-tts", "oidc+openedai-speech"]
 
